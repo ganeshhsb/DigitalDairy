@@ -7,6 +7,7 @@ plugins {
 //    id ("dagger.hilt.android.plugin")
     kotlin("kapt")
     id("com.google.dagger.hilt.android")
+    //id("com.android.dynamic-feature")
 }
 
 android {
@@ -36,11 +37,11 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = "17"
     }
     buildFeatures {
         compose = true
@@ -53,10 +54,23 @@ android {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
-    dynamicFeatures += setOf(":Labour", ":LandDetails", ":Schedules", ":vault")
+    dynamicFeatures += setOf(":test")
+    kotlinOptions {
+        jvmTarget = "17"
+    }
+//    dynamicFeatures += setOf(":Labour", ":LandDetails", ":Schedules", ":vault")
 }
 
 dependencies {
+//implementation(project(mapOf("path" to ":vault")))
+//    implementation(project(mapOf("path" to ":Schedules")))
+//    implementation(project(mapOf("path" to ":LandDetails")))
+//    implementation(project(mapOf("path" to ":Labour")))
+    //    implementation(project(mapOf("path" to ":vault")))
+//    implementation(project(mapOf("path" to ":Labour")))
+//    implementation(project(mapOf("path" to ":LandDetails")))
+//    implementation(project(mapOf("path" to ":Schedules")))
+    implementation(project(mapOf("path" to ":test")))
     val compose_version = "1.4.3"
     val hilt_version = "2.44"
     val room_version = "2.5.2"
@@ -132,6 +146,7 @@ dependencies {
 
     implementation("androidx.navigation:navigation-compose:2.6.0")
     implementation("androidx.compose.material3:material3:1.1.1")
+    implementation(project(":LandDetails"))
 }
 
 // Allow references to generated code

@@ -1,5 +1,6 @@
 package com.digitaldairy
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -11,6 +12,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.digitaldairy.ui.theme.DigitalDairyTheme
+import java.util.LinkedList
+import java.util.Stack
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -26,6 +29,8 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
+
+//        startActivity(Intent(this,MainActivity::class.java))
     }
 }
 
