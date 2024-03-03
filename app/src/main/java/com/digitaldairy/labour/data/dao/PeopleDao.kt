@@ -6,7 +6,8 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.ganesh.compose.data.model.People
+import androidx.room.Update
+import com.digitaldairy.labour.data.model.People
 
 @Dao
 interface PeopleDao {
@@ -25,6 +26,9 @@ interface PeopleDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(vararg people: People)
+
+    @Update
+    suspend fun update(vararg people: People)
 
     @Delete
     suspend fun delete(user: People)

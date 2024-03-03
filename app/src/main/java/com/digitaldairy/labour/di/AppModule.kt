@@ -2,6 +2,8 @@ package com.ganesh.compose.di
 
 import android.content.Context
 import androidx.room.Room
+import com.digitaldairy.labour.data.dao.AddressDao
+import com.digitaldairy.labour.data.dao.WorkDetailDao
 import com.ganesh.compose.data.AppDatabase
 import com.ganesh.compose.data.dao.PeopleDao
 import dagger.Module
@@ -17,6 +19,16 @@ class AppModule {
     @Provides
     fun providePeopleDao(database: AppDatabase): PeopleDao {
         return database.peopleDao()
+    }
+
+    @Provides
+    fun provideWorkDetailDao(database: AppDatabase): WorkDetailDao {
+        return database.workDetailDao()
+    }
+
+    @Provides
+    fun provideAddressDao(database: AppDatabase): AddressDao {
+        return database.addressDao()
     }
 
     @Provides

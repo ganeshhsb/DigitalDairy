@@ -1,15 +1,10 @@
 package com.ganesh.compose.listing
 
 import android.app.Application
-import android.content.Context
-import androidx.compose.runtime.MutableState
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import com.ganesh.compose.data.model.People
+import com.digitaldairy.labour.data.model.People
 import com.ganesh.compose.usecase.PeopleUsecase
-import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.CoroutineScope
@@ -31,7 +26,10 @@ class PeopleListingViewModel @Inject constructor(application: Application, var p
 
     fun getAllPeople(): LiveData<List<People>> {
         //CoroutineScope(Dispatchers.IO).launch {
-         return peopleListLiveData
+//        if(peopleListLiveData == null){
+//            peopleListLiveData = peopleUsecase.getAllAsLiveData().
+//        }
+         return peopleUsecase.getAllAsLiveData()
 //        }
     }
 

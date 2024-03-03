@@ -12,12 +12,12 @@ plugins {
 
 android {
     namespace = "com.digitaldairy"
-    compileSdk = 33
+    compileSdk = 34
 
     defaultConfig {
         applicationId = "com.digitaldairy"
         minSdk = 24
-        targetSdk = 33
+        targetSdk = 34
         versionCode = 1
         versionName = "1.0"
 
@@ -54,7 +54,7 @@ android {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
-    dynamicFeatures += setOf(":test")
+//    dynamicFeatures += setOf(":test")
     kotlinOptions {
         jvmTarget = "17"
     }
@@ -70,7 +70,7 @@ dependencies {
 //    implementation(project(mapOf("path" to ":Labour")))
 //    implementation(project(mapOf("path" to ":LandDetails")))
 //    implementation(project(mapOf("path" to ":Schedules")))
-    implementation(project(mapOf("path" to ":test")))
+//    implementation(project(mapOf("path" to ":test")))
     val compose_version = "1.4.3"
     val hilt_version = "2.44"
     val room_version = "2.5.2"
@@ -96,7 +96,7 @@ dependencies {
     implementation("androidx.appcompat:appcompat:1.6.1")
 //    implementation("com.google.android.material:material:1.9.0")
     implementation("androidx.compose.ui:ui:$compose_version")
-//    implementation("androidx.compose.material:material:$compose_version")
+    implementation("androidx.compose.material:material:$compose_version")
     implementation("androidx.compose.ui:ui-tooling-preview:$compose_version")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.1")
     implementation("androidx.activity:activity-compose:1.7.2")
@@ -111,10 +111,10 @@ dependencies {
 
 
     implementation("androidx.room:room-runtime:$room_version")
-    annotationProcessor("androidx.room:room-compiler:$room_version")
+//    annotationProcessor("androidx.room:room-compiler:$room_version")
 
     // To use Kotlin annotation processing tool (kapt)
-//    kapt("androidx.room:room-compiler:$room_version")
+    kapt("androidx.room:room-compiler:$room_version")
     // To use Kotlin Symbol Processing (KSP)
 //    ksp("androidx.room:room-compiler:$room_version")
 
@@ -144,9 +144,15 @@ dependencies {
     implementation("io.coil-kt:coil-compose:2.4.0")
     //val nav_version =("2.6.0"
 
-    implementation("androidx.navigation:navigation-compose:2.6.0")
+    implementation("androidx.navigation:navigation-compose:2.7.2")
     implementation("androidx.compose.material3:material3:1.1.1")
-    implementation(project(":LandDetails"))
+    implementation ("androidx.lifecycle:lifecycle-viewmodel-compose:2.4.0")
+//    implementation("androidx.hilt:hilt-lifecycle-viewmodel:1.0.0-alpha07")
+//    implementation ("androidx.lifecycle:lifecycle-viewmodel-compose:$hilt_version")
+//    implementation("androidx.hilt:hilt-lifecycle-viewmodel:1.0.0-alpha03")
+    implementation ("androidx.hilt:hilt-navigation-compose:1.0.0")
+//    implementation  'androidx.hilt:hilt-lifecycle-viewmodel:x.x.x'
+//    implementation(project(":LandDetails"))
 }
 
 // Allow references to generated code
