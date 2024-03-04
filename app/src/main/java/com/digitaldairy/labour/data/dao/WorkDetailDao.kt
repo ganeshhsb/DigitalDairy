@@ -9,6 +9,7 @@ import androidx.room.Query
 import androidx.room.Update
 import com.digitaldairy.labour.data.model.People
 import com.digitaldairy.labour.data.model.WorkDetail
+import java.util.Date
 
 @Dao
 interface WorkDetailDao {
@@ -24,10 +25,13 @@ interface WorkDetailDao {
     @Query("SELECT * FROM work_detail WHERE uid = :userId")
     fun loadAllById(userId: String): LiveData<List<WorkDetail>>
 
+    @Query("SELECT * FROM work_detail WHERE uid = :userId AND date =:date")
+    fun getWorkDetail(userId: String, date: Date): List<WorkDetail>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(vararg workDetail: WorkDetail)
 
-    @Update
+    @Update(onConflict = OnConflictStrategy.REPLACE)
     suspend fun update(vararg workDetail: WorkDetail)
 
     @Delete

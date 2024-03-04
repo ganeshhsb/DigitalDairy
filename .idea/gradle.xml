@@ -9,11 +9,7 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
-            <option value="$PROJECT_DIR$/Labour" />
-            <option value="$PROJECT_DIR$/LandDetails" />
-            <option value="$PROJECT_DIR$/Schedules" />
             <option value="$PROJECT_DIR$/app" />
-            <option value="$PROJECT_DIR$/vault" />
           </set>
         </option>
         <option name="resolveExternalAnnotations" value="false" />

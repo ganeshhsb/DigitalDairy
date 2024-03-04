@@ -15,8 +15,8 @@ dependencyResolutionManagement {
 
 rootProject.name = "DigitalDairy"
 include(":app")
-include(":Labour")
-include(":LandDetails")
-include(":Schedules")
-include(":vault")
+//include(":Labour")
+//include(":LandDetails")
+//include(":Schedules")
+//include(":vault")
 //include(":test")

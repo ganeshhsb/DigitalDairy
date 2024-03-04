@@ -64,4 +64,8 @@ class WorkListingViewModel @Inject constructor(
     fun getAllWorkEntryOf(uId: String): LiveData<List<WorkDetail>> {
         return workDetailUsecase.getAllAsLiveData(uId)
     }
+
+    fun getAllWorkEntryOf(uId: String, date:Date): List<WorkDetail> {
+        return workDetailUsecase.getWorkInfo(uId, date)
+    }
 }

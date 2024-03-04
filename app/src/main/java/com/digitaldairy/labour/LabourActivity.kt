@@ -38,6 +38,7 @@ import androidx.navigation.compose.rememberNavController
 import com.digitaldairy.common.AppToolbar
 import com.digitaldairy.common.ScreenTopLayout
 import com.digitaldairy.labour.data.model.People
+import com.ganesh.compose.listing.LaborItem
 import com.ganesh.compose.listing.LoadingScreen
 import com.ganesh.compose.listing.PeopleListingViewModel
 import com.ganesh.compose.ui.theme.HelloComposeTheme
@@ -84,13 +85,13 @@ fun MainActivityContent(peopleListingViewModel: PeopleListingViewModel) {
         val canPop = remember { mutableStateOf(false) }
 //        Surface(color = MaterialTheme.colorScheme.background) {
 
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .fillMaxHeight()
-            ) {
-                hostPage(peopleListingViewModel, navController, canPop, currentScreen)
-            }
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .fillMaxHeight()
+        ) {
+            hostPage(peopleListingViewModel, navController, canPop, currentScreen)
+        }
 //        }
     }
 }
@@ -112,79 +113,6 @@ fun FloatingActionButtonCompose(callback: () -> Unit) {
     }
 }
 
-@Composable
-fun HomeScreen(
-    peopleListingViewModel: PeopleListingViewModel = hiltViewModel(),
-    navController: NavHostController,
-    callback: (userId: String) -> Unit
-) {
-    val state = remember { peopleListingViewModel.peopleListLiveData }.observeAsState()
-    if (state.value == null) {
-        LoadingScreen()
-    } else {
-        HelloComposeTheme {
-            ScreenTopLayout(
-                screen = Screen.LaborListing,
-                topBar = {
-                    AppToolbar(
-                        "Labor Listing",
-                        Screen.LaborListing,
-                        navController = navController
-                    )
-                },
-                navController = navController,
-                showFloatingActionButton = true,
-                { navController.navigate(Screen.NewScreen.screenName) }
-            ) {
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .fillMaxHeight()
-                ) {
-                    LazyColumn {
-                        state.value?.forEach {
-                            item {
-                                LaborItem(it, callback)
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
-}
-
-@Composable
-fun LaborItem(people: People, callback: ((userId: String) -> Unit)? = null) {
-    val paddingModifier = Modifier.fillMaxWidth().padding(10.dp)
-    Card(elevation = 10.dp, modifier = paddingModifier, border = BorderStroke(1.dp, Color.Black)) {
-        Column(Modifier.clickable {
-            callback?.invoke(people.uid)
-        }) {
-            Text(
-                text = "Name : " + people.firstName + " " + people.lastName,
-                color = Color.Black,
-                fontSize = TextUnit(14.0F, TextUnitType.Sp),
-                modifier = Modifier
-                    .padding(8.dp)
-                    .background(Color.White)
-                    .fillMaxWidth()
-            )
-
-
-
-            Text(
-                text = "Age : " + " " + people.age,
-                color = Color.Black,
-                fontSize = TextUnit(14.0F, TextUnitType.Sp),
-                modifier = Modifier
-                    .padding(8.dp)
-                    .background(Color.White)
-                    .fillMaxWidth()
-            )
-        }
-    }
-}
 
 @Preview(showSystemUi = true)
 @Composable

@@ -1,6 +1,7 @@
 package com.digitaldairy.labour.workscreen
 
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -46,7 +47,9 @@ fun LabourWorkList(
             LazyColumn {
                 items(entries.value!!) {
                     val paddingModifier = Modifier.fillMaxWidth().padding(10.dp)
-                    Card(elevation = 10.dp, modifier = paddingModifier, border = BorderStroke(1.dp, Color.Black)) {
+                    Card(elevation = 10.dp, modifier = paddingModifier.clickable {
+                                                                                 navController.navigate("${Screen.LabourWorkEntry.screenName}/$userId?date=${it.date.time}")
+                    }, border = BorderStroke(1.dp, Color.Black)) {
                         Column(modifier = Modifier.padding(10.dp)) {
                             val formatter = SimpleDateFormat("dd/MM/yyyy")
                             val date = formatter.format(it.date)
