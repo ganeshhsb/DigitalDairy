@@ -71,14 +71,14 @@ dependencies {
 //    implementation(project(mapOf("path" to ":LandDetails")))
 //    implementation(project(mapOf("path" to ":Schedules")))
 //    implementation(project(mapOf("path" to ":test")))
-    val compose_version = "1.4.3"
+    val compose_version = "1.6.2"
     val hilt_version = "2.44"
     val room_version = "2.5.2"
 
     implementation("androidx.core:core-ktx:1.9.0")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.1")
-    implementation("androidx.activity:activity-compose:1.7.2")
-    implementation(platform("androidx.compose:compose-bom:2023.03.00"))
+    implementation("androidx.activity:activity-compose:1.8.2")
+    implementation(platform("androidx.compose:compose-bom:2023.08.00"))
     implementation("androidx.compose.ui:ui")
     implementation("androidx.compose.ui:ui-graphics")
     implementation("androidx.compose.ui:ui-tooling-preview")
@@ -140,7 +140,7 @@ dependencies {
 //    implementation("com.google.dagger:hilt-android:$hilt_version")
 //    kapt "com.google.dagger:hilt-android-compiler:$hilt_version"
 //    implementation("androidx.compose.runtime:runtime-livedata:1.4.3'
-    implementation ("androidx.compose.runtime:runtime-livedata:1.4.3")
+    implementation ("androidx.compose.runtime:runtime-livedata:$compose_version")
     implementation("io.coil-kt:coil-compose:2.4.0")
     //val nav_version =("2.6.0"
 
