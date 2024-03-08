@@ -15,7 +15,7 @@ import com.digitaldairy.common.AppToolbar
 import com.digitaldairy.common.ScreenTopLayout
 import com.digitaldairy.labour.Screen
 import com.digitaldairy.labour.data.model.People
-import com.digitaldairy.labour.workscreen.AppTextField
+import com.digitallibrary.compose.appcomponents.AppTextField
 import com.ganesh.compose.listing.PeopleListingViewModel
 import java.util.UUID
 

@@ -14,19 +14,13 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.Card
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.OutlinedTextFieldDefaults
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.TextUnit
-import androidx.compose.ui.unit.TextUnitType
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
@@ -35,10 +29,8 @@ import com.digitaldairy.common.AppToolbar
 import com.digitaldairy.common.ScreenTopLayout
 import com.digitaldairy.labour.Screen
 import com.digitaldairy.labour.data.model.People
-import com.digitaldairy.labour.workscreen.AppTextField
-import com.digitaldairy.labour.workscreen.LabelValueText
+import com.digitallibrary.compose.appcomponents.LabelValueText
 import com.ganesh.compose.ui.theme.HelloComposeTheme
-import java.util.UUID
 
 
 @Composable

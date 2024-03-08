@@ -1,6 +1,5 @@
 package com.digitaldairy.labour.workscreen
 
-import androidx.annotation.StringRes
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -20,9 +19,7 @@ import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.State
 import androidx.compose.runtime.key
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -42,19 +39,21 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavHostController
 import com.digitaldairy.R
-import com.digitaldairy.common.AppDatePickerDialog
 import com.digitaldairy.common.AppToolbar
 import com.digitaldairy.common.ScreenTopLayout
 import com.digitaldairy.labour.Screen
 import com.digitaldairy.labour.data.model.WorkDetail
+import com.digitallibrary.compose.appcomponents.AppCheckbox
+import com.digitallibrary.compose.appcomponents.AppDatePickerDialog
+import com.digitallibrary.compose.appcomponents.AppText
+import com.digitallibrary.compose.appcomponents.AppTextField
+import com.digitallibrary.compose.appcomponents.LabelValueText
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
 import java.util.Locale
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
@@ -207,140 +206,6 @@ fun WorkDetailContent(
                 }
             }
         }
-    }
-}
-
-@Composable
-fun AppCheckbox(isChecked: Boolean, onCheckChanged: (isChecked: Boolean) -> Unit) {
-    key(isChecked){
-        val checkedState = remember { mutableStateOf(isChecked) }
-        Checkbox(
-            checkedState.value,
-            onCheckedChange = {
-                checkedState.value = it
-                onCheckChanged(it)
-            }
-        )
-    }
-}
-
-@Composable
-fun AppTextField(
-    value: String,
-    label: String = "",
-    placeHolder: String = "",
-    onValueChange: (text: String) -> Unit,
-) {
-    key(value){
-        val textFieldValueState = remember { mutableStateOf(value) }
-        TextField(modifier = Modifier.background(color = MaterialTheme.colorScheme.tertiary),
-            value = textFieldValueState.value,
-            onValueChange = { text: String ->
-                textFieldValueState.value = text
-                onValueChange(text)
-            },
-
-            textStyle = TextStyle(color = MaterialTheme.colorScheme.onTertiary),
-            label = {
-                Text(
-                    text = label, color = Color.Black,
-                    fontSize = TextUnit(14.0F, TextUnitType.Sp)
-                )
-            },
-            placeholder = {
-                Text(
-                    text = placeHolder, color = Color.Black,
-                    fontSize = TextUnit(14.0F, TextUnitType.Sp)
-                )
-            },
-            shape = RoundedCornerShape(5.dp)
-        )
-    }
-}
-
-@Composable
-fun AppText(
-    value: String, modifier: Modifier = Modifier, fontSize: Float = 14f,
-    fontWeight: FontWeight? = null,textAlign:TextAlign? = null, textStyle: TextStyle = LocalTextStyle.current
-) {
-    Text(
-        text = value,
-        modifier = modifier,
-        fontSize = TextUnit(fontSize, type = TextUnitType.Sp),
-        fontFamily = FontFamily.SansSerif,
-        fontWeight = fontWeight,
-        textAlign = textAlign,
-        style = textStyle
-    )
-}
-
-@Composable
-fun LabelText(
-    value: String, modifier: Modifier = Modifier, fontSize: Float = 14f,
-    fontWeight: FontWeight? = null,
-) {
-    Text(
-        text = value,
-        modifier = modifier,
-        fontSize = TextUnit(fontSize, type = TextUnitType.Sp),
-        fontFamily = FontFamily.SansSerif,
-        fontWeight = FontWeight.SemiBold,
-    )
-}
-
-@Composable
-fun ValueText(
-    value: String, modifier: Modifier = Modifier, fontSize: Float = 14f,
-    fontWeight: FontWeight? = null,
-) {
-    Text(
-        text = value,
-        modifier = modifier,
-        fontSize = TextUnit(fontSize, type = TextUnitType.Sp),
-        fontFamily = FontFamily.SansSerif,
-        fontWeight = fontWeight,
-    )
-}
-
-@Composable
-fun BoldText(
-    value: String, modifier: Modifier = Modifier, fontSize: Float = 14f,
-    fontWeight: FontWeight? = null,
-) {
-    Text(
-        text = value,
-        modifier = modifier,
-        fontWeight = FontWeight.Bold,
-        fontFamily = FontFamily.SansSerif,
-        fontSize = TextUnit(fontSize, type = TextUnitType.Sp),
-    )
-}
-
-
-@Composable
-fun HeaderText(
-    value: String, modifier: Modifier = Modifier, fontSize: Float = 14f,
-    fontWeight: FontWeight? = null,
-) {
-    Text(
-        text = value,
-        modifier = modifier,
-        fontSize = TextUnit(18f, type = TextUnitType.Sp),
-        fontWeight = FontWeight.Bold,
-        fontFamily = FontFamily.SansSerif
-    )
-}
-
-@Composable
-fun LabelValueText(
-    label: String,
-    value: String, modifier: Modifier = Modifier, fontSize: Float = 14f,
-    fontWeight: FontWeight? = null,
-) {
-    Row(modifier = modifier) {
-        LabelText(label, fontSize = fontSize)
-        Text(" :  ")
-        ValueText(value, fontSize = fontSize)
     }
 }
 

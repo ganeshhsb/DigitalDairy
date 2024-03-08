@@ -18,7 +18,7 @@ import com.digitaldairy.R
 import com.digitaldairy.common.AppToolbar
 import com.digitaldairy.common.ScreenTopLayout
 import com.digitaldairy.labour.Screen
-import com.digitaldairy.labour.workscreen.LabelValueText
+import com.digitallibrary.compose.appcomponents.LabelValueText
 import com.ganesh.compose.listing.LoadingScreen
 import com.ganesh.compose.listing.PeopleListingViewModel
 
