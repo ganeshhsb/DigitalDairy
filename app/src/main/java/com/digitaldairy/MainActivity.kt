@@ -24,15 +24,15 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.digitaldairy.compose.appcomponents.AppText
 import com.digitaldairy.labour.LabourActivity
-import com.digitaldairy.ui.theme.DigitalDairyTheme
-import com.digitallibrary.compose.appcomponents.AppText
+import com.digitaldairy.labour.theme.HelloComposeTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            DigitalDairyTheme {
+            HelloComposeTheme {
                 // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(),
@@ -61,7 +61,7 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
                 modifier = Modifier.weight(1f).height(100.dp).padding(10.dp)
                     .background(color = MaterialTheme.colorScheme.secondary)
                     .align(alignment = Alignment.CenterVertically).clickable {
-                        val intent = Intent(context,LabourActivity::class.java)
+                        val intent = Intent(context, LabourActivity::class.java)
                         context.startActivity(intent)
                     }
             ) {
@@ -92,7 +92,7 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
 @Preview(showBackground = true)
 @Composable
 fun GreetingPreview() {
-    DigitalDairyTheme {
+    HelloComposeTheme {
         Greeting("Android")
     }
 }

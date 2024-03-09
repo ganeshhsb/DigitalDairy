@@ -1,0 +1,23 @@
+<resources>
+    <string name="title_labour">LabourManagement</string>
+    <string name="title_landdetails">Module Title</string>
+    <string name="title_schedules">Schedules</string>
+    <string name="title_vault">vault</string>
+    <string name="title_test">test</string>
+    <string name="edit_labor_details">"Edit labor details"</string>
+    <string name="name">Name</string>
+    <string name="age">Age</string>
+    <string name="labor_listing">"Labor Listing"</string>
+    <string name="labor_detail">"Labor detail"</string>
+    <string name="create_new_labor">"Create new labor"</string>
+    <string name="first_name">"First Name"</string>
+    <string name="last_name">Last Name</string>
+    <string name="work_entry">Work Entry</string>
+    <string name="selected_date">"Selected date"</string>
+    <string name="show_date_picker">"Show Date Picker"</string>
+    <string name="hours_worked">"Hours worked"</string>
+    <string name="work_description">Work description</string>
+    <string name="enter_work_description">"Enter work description"</string>
+    <string name="daily_wage">"Daily wage"</string>
+    <string name="enter_daily_wage">"Enter daily wage"</string>
+</resources>

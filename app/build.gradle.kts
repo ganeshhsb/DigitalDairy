@@ -50,6 +50,7 @@ android {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
+//    dynamicFeatures += setOf(":labour")
     kotlinOptions {
         jvmTarget = "17"
     }
@@ -60,6 +61,7 @@ android {
 
 dependencies {
     implementation(project(":composecomponents"))
+    implementation(project(":LaboursDairy"))
     commonDependency()
     compose()
     room()

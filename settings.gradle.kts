@@ -17,3 +17,5 @@ dependencyResolutionManagement {
 rootProject.name = "DigitalDairy"
 include(":app")
 include(":composecomponents")
+//include(":labour")
+include(":LaboursDairy")
