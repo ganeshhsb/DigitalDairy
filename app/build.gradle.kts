@@ -50,7 +50,8 @@ android {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
-//    dynamicFeatures += setOf(":labour")
+    dynamicFeatures += setOf(":Schedules")
+    //    dynamicFeatures += setOf(":labour")
     kotlinOptions {
         jvmTarget = "17"
     }
@@ -69,6 +70,8 @@ dependencies {
     composeTesting()
     roomTesting()
     unitTest()
+    implementation("io.reactivex.rxjava3:rxjava:3.0.0")
+    implementation("io.reactivex.rxjava3:rxandroid:3.0.0")
 }
 
 // Allow references to generated code

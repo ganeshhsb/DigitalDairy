@@ -2,6 +2,7 @@ package com.digitaldairy
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
@@ -27,10 +28,14 @@ import androidx.compose.ui.unit.dp
 import com.digitaldairy.compose.appcomponents.AppText
 import com.digitaldairy.labour.LabourActivity
 import com.digitaldairy.labour.theme.HelloComposeTheme
+import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.core.Single
+import kotlin.random.Random
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+       // testSingle()
         setContent {
             HelloComposeTheme {
                 // A surface container using the 'background' color from the theme
@@ -42,8 +47,43 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
-//        startActivity(Intent(this,MainActivity::class.java))
     }
+}
+
+//fun testSingle(){
+//    val list = arrayListOf<Single<Int>>()
+//    list.add(getError())
+//    for (i in 1..5){
+//        list.add(getSingleInteger(i))
+//    }
+//    list.add(getError())
+//    Single.mergeDelayError(list).flatMap {
+//        getSingleFloat(it).map {
+//            it*100
+//        }
+//    }.subscribe({ it->
+//        Log.d("Random", "testSingle: "+it)
+//    },{it->
+//        Log.d("Random", "Error testSingle: "+it)
+//    },{
+//        Log.d("Random", "Error completed")
+//    }).dispose()
+//}
+//
+//fun getError(): Single<Int> {
+//    return Single.error(Throwable("Test"))
+//}
+
+fun getSingleInteger(i:Int): Single<Int> {
+    return Single.create { emitter ->
+        val random = Random(100).nextInt(0,100)
+        Log.d("Random", "getSingleInteger: "+i)
+        emitter.onSuccess(i)
+    }
+}
+
+fun getSingleFloat(i:Int): Observable<Int> {
+    return Observable.just(i)
 }
 
 @Composable
