@@ -67,11 +67,11 @@ dependencies {
     compose()
     room()
     hilt()
+    implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     composeTesting()
     roomTesting()
     unitTest()
-    implementation("io.reactivex.rxjava3:rxjava:3.0.0")
-    implementation("io.reactivex.rxjava3:rxandroid:3.0.0")
+    rxjava()
 }
 
 // Allow references to generated code

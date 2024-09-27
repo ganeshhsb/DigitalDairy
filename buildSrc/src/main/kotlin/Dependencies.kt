@@ -68,12 +68,25 @@ object Dependencies {
 
     // optional - Kotlin Extensions and Coroutines support for Room
     const val roomKtx = "androidx.room:room-ktx:${Versions.roomVersion}"
+
     // optional - Paging 3 Integration
     const val roomPaging = "androidx.room:room-paging:${Versions.roomVersion}"
     val roomDependencyList = arrayListOf(roomRuntime, roomKtx, roomPaging)
 
     // optional - Test helpers
     const val roomTesting = "androidx.room:room-testing:${Versions.roomVersion}"
+
+    val rxJava = "io.reactivex.rxjava3:rxjava:${Versions.rxJavaVersion}"
+    val rxAndroid = "io.reactivex.rxjava3:rxandroid:${Versions.rxJavaVersion}"
+    val rxJavaDependencyList = arrayListOf(rxJava, rxAndroid)
+
+    //Mockito
+    var mockitoKotlin = "org.mockito.kotlin:mockito-kotlin:${Versions.mockitoKotlinVersion}"
+    var mockito = "org.mockito:mockito-inline:${Versions.mockitoVersion}"
+    val mockitoDependencyList = arrayListOf(mockitoKotlin, mockito)
+
+    // coroutine testing
+    var coroutineTesting = "org.jetbrains.kotlinx:kotlinx-coroutines-test"
 
 }
 
@@ -119,6 +132,18 @@ fun DependencyHandler.hilt() {
         implementation(it)
     }
     kapt(Dependencies.hiltCompiler)
+}
+
+fun DependencyHandler.rxjava() {
+    Dependencies.rxJavaDependencyList.forEach {
+        implementation(it)
+    }
+}
+
+fun DependencyHandler.mockito() {
+    Dependencies.mockitoDependencyList.forEach {
+        testImplementation(it)
+    }
 }
 
 

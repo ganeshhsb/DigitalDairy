@@ -1,8 +1,9 @@
 package com.digitaldairy
 
+//import io.reactivex.rxjava3.core.Observable
+//import io.reactivex.rxjava3.core.Single
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
@@ -28,14 +29,12 @@ import androidx.compose.ui.unit.dp
 import com.digitaldairy.compose.appcomponents.AppText
 import com.digitaldairy.labour.LabourActivity
 import com.digitaldairy.labour.theme.HelloComposeTheme
-import io.reactivex.rxjava3.core.Observable
-import io.reactivex.rxjava3.core.Single
-import kotlin.random.Random
 
 class MainActivity : ComponentActivity() {
+    private val TAG = "MainActivity"
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-       // testSingle()
+        // testSingle()
         setContent {
             HelloComposeTheme {
                 // A surface container using the 'background' color from the theme
@@ -47,8 +46,32 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
+//        testSingleMergeDelayError().subscribe({
+//            Log.d(TAG, "onCreate: ${it}")
+//        }, {
+//            Log.d(TAG, "onCreate:${it.message} ")
+//        }, {
+//            Log.d(TAG, "onCreate: ")
+//        })
     }
+
+//    fun testSingleMergeDelayError(): Flowable<String> {
+//        val list = arrayOf("asf", "test").toList().map {
+//            testSingle(it + 123)
+//        }
+//
+//        return Single.create<String> { it.onSuccess("") }.flatMapPublisher {
+//            Single.mergeDelayError(
+//                list
+//            )
+//        }
+//    }
+
+//    fun testSingle(value: String): Single<String> {
+//        return Single.create<String> { it.onSuccess(value) }
+//    }
 }
+
 
 //fun testSingle(){
 //    val list = arrayListOf<Single<Int>>()
@@ -74,17 +97,17 @@ class MainActivity : ComponentActivity() {
 //    return Single.error(Throwable("Test"))
 //}
 
-fun getSingleInteger(i:Int): Single<Int> {
-    return Single.create { emitter ->
-        val random = Random(100).nextInt(0,100)
-        Log.d("Random", "getSingleInteger: "+i)
-        emitter.onSuccess(i)
-    }
-}
-
-fun getSingleFloat(i:Int): Observable<Int> {
-    return Observable.just(i)
-}
+//fun getSingleInteger(i:Int): Single<Int> {
+//    return Single.create { emitter ->
+//        val random = Random(100).nextInt(0,100)
+//        Log.d("Random", "getSingleInteger: "+i)
+//        emitter.onSuccess(i)
+//    }
+//}
+//
+//fun getSingleFloat(i:Int): Observable<Int> {
+//    return Observable.just(i)
+//}
 
 @Composable
 fun Greeting(name: String, modifier: Modifier = Modifier) {
@@ -98,9 +121,13 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
             horizontalArrangement = Arrangement.SpaceAround
         ) {
             Box(
-                modifier = Modifier.weight(1f).height(100.dp).padding(10.dp)
+                modifier = Modifier
+                    .weight(1f)
+                    .height(100.dp)
+                    .padding(10.dp)
                     .background(color = MaterialTheme.colorScheme.secondary)
-                    .align(alignment = Alignment.CenterVertically).clickable {
+                    .align(alignment = Alignment.CenterVertically)
+                    .clickable {
                         val intent = Intent(context, LabourActivity::class.java)
                         context.startActivity(intent)
                     }
@@ -113,7 +140,10 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
                 )
             }
             Box(
-                modifier = Modifier.weight(1f).height(100.dp).padding(10.dp)
+                modifier = Modifier
+                    .weight(1f)
+                    .height(100.dp)
+                    .padding(10.dp)
                     .background(color = MaterialTheme.colorScheme.secondary)
                     .align(alignment = Alignment.CenterVertically)
             ) {

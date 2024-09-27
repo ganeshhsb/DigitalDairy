@@ -8,6 +8,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.digitaldairy.common.AppToolbar
@@ -20,8 +21,8 @@ import java.util.UUID
 
 @Composable
 fun PeopleEntryScreen(
-    peopleListingViewModel: PeopleListingViewModel =
-        hiltViewModel(), navController: NavHostController, people: People? = null
+    peopleListingViewModel: PeopleListingViewModel? =
+        hiltViewModel(), navController: NavHostController? = null, people: People? = null
 ) {
     val peopleState: MutableState<People>
     val screen: Screen
@@ -52,18 +53,18 @@ fun PeopleEntryScreen(
             AppToolbar(
                 title = title,
                 currentScreen = screen,
-                navController = navController,
+                navController = navController!!,
                 onDoneClick = {
-                    peopleListingViewModel.saveData(peopleState.value) {
-                        navController.popBackStack()
+                    peopleListingViewModel?.saveData(peopleState.value) {
+                        navController?.popBackStack()
                     }
                 },
                 onCancelClick = {
-                    navController.popBackStack()
+                    navController?.popBackStack()
                 }
             )
         },
-        navController = navController
+        navController = navController!!
     ) {
         val color = OutlinedTextFieldDefaults.colors(
             focusedBorderColor = Color.Black,
@@ -90,4 +91,11 @@ fun PeopleEntryScreen(
             }
         }
     }
+}
+
+@Preview(showSystemUi = true)
+@Composable
+fun PeopleEntryScreenPreview() {
+//    MainActivityContent(peopleListingViewModel) // Replace with the actual composable function name used in MainActivity
+    PeopleEntryScreen(people = People("test", "testasfsdf", "testasfd", 23, "test"))
 }

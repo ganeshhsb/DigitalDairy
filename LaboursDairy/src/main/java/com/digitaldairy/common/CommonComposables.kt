@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Close
-import androidx.compose.material.icons.filled.Done
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.*
@@ -73,7 +72,7 @@ fun AppToolbar(
         },
         actions = {
             if (canEdit)
-                ToolbarButton(Icons.Filled.Done) { onDoneClick?.invoke() }
+                ToolbarButton(Icons.Filled.Close) { onDoneClick?.invoke() }
             else if (showEditIcon) {
                 ToolbarButton(Icons.Filled.Edit) { onEditClick?.invoke() }
             }
