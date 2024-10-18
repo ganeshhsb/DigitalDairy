@@ -5,12 +5,15 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.Done
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.digitaldairy.compose.appcomponents.ToolbarButton
 import com.digitaldairy.labour.FloatingActionButtonCompose
 import com.digitaldairy.labour.Screen
@@ -45,6 +48,13 @@ fun ScreenTopLayout(
     )
 }
 
+@Preview
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun AppToolbar() {
+    AppToolbar("Test", Screen.LabourWorkEntry, rememberNavController())
+}
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AppToolbar(
@@ -57,7 +67,8 @@ fun AppToolbar(
     onEditClick: (() -> Unit)? = null
 ) {
     val showMenu = currentScreen is Screen.LaborListing
-    val canEdit = currentScreen is Screen.EditScreen || currentScreen is Screen.NewScreen || currentScreen is Screen.LabourWorkEntry
+    val canEdit =
+        currentScreen is Screen.EditScreen || currentScreen is Screen.NewScreen || currentScreen is Screen.LabourWorkEntry
     val showEditIcon = currentScreen is Screen.DetailScreen
     TopAppBar(
         title = { Text(text = title) },
@@ -72,7 +83,7 @@ fun AppToolbar(
         },
         actions = {
             if (canEdit)
-                ToolbarButton(Icons.Filled.Close) { onDoneClick?.invoke() }
+                ToolbarButton(Icons.Filled.Done) { onDoneClick?.invoke() }
             else if (showEditIcon) {
                 ToolbarButton(Icons.Filled.Edit) { onEditClick?.invoke() }
             }

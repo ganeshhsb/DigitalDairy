@@ -51,7 +51,7 @@ fun AppDatePickerDialog(
     showDatePicker: MutableState<Boolean>,
     selectedDate: MutableState<Long>,
     datePickerState: DatePickerState,
-    onDateSelection:(date:Date)->Unit
+    onDateSelection: (date: Date) -> Unit
 ) {
     DatePickerDialog(
         onDismissRequest = {
@@ -61,10 +61,9 @@ fun AppDatePickerDialog(
             TextButton(onClick = {
 
 
-
                 showDatePicker.value = false
                 selectedDate.value = datePickerState.selectedDateMillis ?: 0
-                onDateSelection(Date(datePickerState.selectedDateMillis?:0))
+                onDateSelection(Date(datePickerState.selectedDateMillis ?: 0))
             }) {
                 Text(text = "Confirm")
             }
@@ -116,7 +115,7 @@ fun DatePickerCompose() {
 
 @Composable
 fun AppCheckbox(isChecked: Boolean, onCheckChanged: (isChecked: Boolean) -> Unit) {
-    key(isChecked){
+    key(isChecked) {
         val checkedState = remember { mutableStateOf(isChecked) }
         Checkbox(
             checkedState.value,
@@ -133,11 +132,13 @@ fun AppTextField(
     value: String,
     label: String = "",
     placeHolder: String = "",
+    modifier: Modifier = Modifier,
     onValueChange: (text: String) -> Unit,
 ) {
-    key(value){
+    key(value) {
         val textFieldValueState = remember { mutableStateOf(value) }
-        TextField(modifier = Modifier.background(color = MaterialTheme.colorScheme.tertiary),
+        TextField(
+            modifier = modifier.background(color = MaterialTheme.colorScheme.tertiary),
             value = textFieldValueState.value,
             onValueChange = { text: String ->
                 textFieldValueState.value = text
@@ -147,13 +148,13 @@ fun AppTextField(
             textStyle = TextStyle(color = MaterialTheme.colorScheme.onTertiary),
             label = {
                 Text(
-                    text = label, color = Color.Black,
+                    text = label, color = MaterialTheme.colorScheme.onTertiary,
                     fontSize = TextUnit(14.0F, TextUnitType.Sp)
                 )
             },
             placeholder = {
                 Text(
-                    text = placeHolder, color = Color.Black,
+                    text = placeHolder, color = MaterialTheme.colorScheme.onTertiary,
                     fontSize = TextUnit(14.0F, TextUnitType.Sp)
                 )
             },
@@ -164,8 +165,12 @@ fun AppTextField(
 
 @Composable
 fun AppText(
-    value: String, modifier: Modifier = Modifier, fontSize: Float = 14f,
-    fontWeight: FontWeight? = null, textAlign: TextAlign? = null, textStyle: TextStyle = LocalTextStyle.current
+    value: String,
+    modifier: Modifier = Modifier,
+    fontSize: Float = 14f,
+    fontWeight: FontWeight? = null,
+    textAlign: TextAlign? = null,
+    textStyle: TextStyle = LocalTextStyle.current
 ) {
     Text(
         text = value,
@@ -184,6 +189,7 @@ fun LabelText(
     fontWeight: FontWeight? = null,
 ) {
     Text(
+        color = MaterialTheme.colorScheme.onSecondary,
         text = value,
         modifier = modifier,
         fontSize = TextUnit(fontSize, type = TextUnitType.Sp),
@@ -198,6 +204,7 @@ fun ValueText(
     fontWeight: FontWeight? = null,
 ) {
     Text(
+        color = MaterialTheme.colorScheme.onSecondary,
         text = value,
         modifier = modifier,
         fontSize = TextUnit(fontSize, type = TextUnitType.Sp),

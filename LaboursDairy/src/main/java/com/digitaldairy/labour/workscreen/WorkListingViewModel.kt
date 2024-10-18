@@ -20,7 +20,7 @@ import kotlinx.coroutines.withContext
 @HiltViewModel
 class WorkListingViewModel @Inject constructor(
     application: Application,
-    var workDetailUsecase: WorkDetailUsecase
+    private var workDetailUsecase: WorkDetailUsecase
 ) : AndroidViewModel(application) {
     @OptIn(ExperimentalMaterial3Api::class)
     var workEntryDate: MutableLiveData<DatePickerState> = MutableLiveData()

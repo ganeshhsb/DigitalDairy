@@ -1,5 +1,6 @@
 package com.digitaldairy.labour.workscreen
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -20,14 +21,15 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.core.text.isDigitsOnly
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.digitaldairy.common.AppToolbar
 import com.digitaldairy.common.ScreenTopLayout
-import com.digitaldairy.labour.data.model.WorkDetail
 import com.digitaldairy.compose.appcomponents.AppCheckbox
 import com.digitaldairy.compose.appcomponents.AppDatePickerDialog
 import com.digitaldairy.compose.appcomponents.AppText
@@ -35,12 +37,14 @@ import com.digitaldairy.compose.appcomponents.AppTextField
 import com.digitaldairy.compose.appcomponents.LabelValueText
 import com.digitaldairy.labour.R
 import com.digitaldairy.labour.Screen
+import com.digitaldairy.labour.data.model.WorkDetail
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
 import java.util.Locale
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
@@ -52,11 +56,12 @@ fun LabourWorkEntry(
     date: Date? = null
 ) {
     val scope = rememberCoroutineScope()
-    val workDetailState:MutableState<WorkDetail?> = remember { mutableStateOf(WorkDetail(userId, Date(), 6, "", false, 200)) }
+    val workDetailState: MutableState<WorkDetail?> =
+        remember { mutableStateOf(WorkDetail(userId, Date(), 6, "", false, 200)) }
     LaunchedEffect("Test") {
 
         if (date == null) {
-             workDetailState.value = WorkDetail(userId, Date(), 6, "", false, 200)
+            workDetailState.value = WorkDetail(userId, Date(), 6, "", false, 200)
         } else {
             workListingViewModel.viewModelScope.launch(Dispatchers.IO) {
                 val data = workListingViewModel.getAllWorkEntryOf(userId, date).first()
@@ -64,18 +69,33 @@ fun LabourWorkEntry(
                     workDetailState.value = data
                 }
             }
-            }
+        }
     }
 
     if (workDetailState.value != null) {
         WorkDetailContent(
             navController,
-            workListingViewModel,
+            // workListingViewModel,
             workDetailState.value!!,
             userId
-        )
+        ) {
+            workListingViewModel.addWorkEntry(workDetailState.value!!) {
+                navController.popBackStack()
+            }
+        }
     } else {
         AppText("Loading")
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun LabourWorkEntryPreview() {
+    WorkDetailContent(
+        navController = rememberNavController(),
+        workDetailState = WorkDetail("", Date(), 5, "", false, 0, 0),
+        userId = "12345", // Sample userId
+    ) {
     }
 }
 
@@ -83,11 +103,11 @@ fun LabourWorkEntry(
 @OptIn(ExperimentalMaterial3Api::class)
 fun WorkDetailContent(
     navController: NavHostController,
-    workListingViewModel: WorkListingViewModel,
     workDetailState: WorkDetail,
-    userId: String
+    userId: String,
+    onDoneClick: () -> Unit
 ) {
-    key(workDetailState){
+    key(workDetailState) {
         ScreenTopLayout(
             screen = Screen.LabourWorkEntry,
             topBar = {
@@ -97,9 +117,7 @@ fun WorkDetailContent(
                     navController = navController,
                     onDoneClick = {
                         if (workDetailState != null) {
-                            workListingViewModel.addWorkEntry(workDetailState!!) {
-                                navController.popBackStack()
-                            }
+                            onDoneClick()
                         } else {
                             navController.popBackStack()
                         }
@@ -145,13 +163,17 @@ fun WorkDetailContent(
                     }
                 }
 
-                Column {
+                Column(modifier = Modifier.padding(8.dp)) {
 
-                    Row {
+                    Row(horizontalArrangement = Arrangement.End) {
                         val formatter = SimpleDateFormat("dd MMM yyyy", Locale.ROOT)
                         val date = formatter.format(selectedDate.value)
                         LabelValueText(stringResource(R.string.selected_date), date)
-                        Spacer(modifier = Modifier.width(1.dp).height(16.dp))
+                        Spacer(
+                            modifier = Modifier
+                                .width(1.dp)
+                                .height(16.dp)
+                        )
                         Button(modifier = Modifier.padding(top = 1.dp),
                             onClick = {
                                 showDatePicker.value = true
@@ -172,7 +194,8 @@ fun WorkDetailContent(
                     AppTextField(
                         workDetailState?.dailyWage.toString(),
                         stringResource(R.string.work_description),
-                        stringResource(R.string.enter_work_description)
+                        stringResource(R.string.enter_work_description),
+                        modifier = Modifier.padding(top = 8.dp)
                     ) {
                         workDetailState?.workDescription = it
                     }

@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.Card
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
@@ -78,7 +79,7 @@ fun PeopleListingScreen(
 @Composable
 fun LaborItem(people: People, callback: ((userId: String) -> Unit)? = null) {
     val paddingModifier = Modifier.fillMaxWidth().padding(10.dp)
-    Card(elevation = 10.dp, modifier = paddingModifier, border = BorderStroke(1.dp, Color.Black)) {
+    Card(elevation = 10.dp, modifier = paddingModifier, border = BorderStroke(1.dp, Color.Black), backgroundColor = MaterialTheme.colors.secondary) {
         Column(Modifier.padding(8.dp).clickable {
             callback?.invoke(people.uid)
         }) {
@@ -88,7 +89,7 @@ fun LaborItem(people: People, callback: ((userId: String) -> Unit)? = null) {
                 people.firstName + " " + people.lastName,
                 modifier = Modifier
                     .padding(8.dp)
-                    .background(Color.White)
+                    .background(MaterialTheme.colors.secondary)
                     .fillMaxWidth()
             )
 
@@ -97,7 +98,7 @@ fun LaborItem(people: People, callback: ((userId: String) -> Unit)? = null) {
                 people.age.toString(),
                 modifier = Modifier
                     .padding(8.dp)
-                    .background(Color.White)
+                    .background(MaterialTheme.colors.secondary)
                     .fillMaxWidth()
             )
         }

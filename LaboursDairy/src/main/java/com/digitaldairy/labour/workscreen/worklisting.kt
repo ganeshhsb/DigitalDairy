@@ -1,5 +1,6 @@
 package com.digitaldairy.labour.workscreen
 
+import android.app.Application
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -13,16 +14,54 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.digitaldairy.common.AppToolbar
 import com.digitaldairy.common.ScreenTopLayout
 import com.digitaldairy.compose.appcomponents.LabelValueText
 import com.digitaldairy.labour.Screen
+import com.digitaldairy.labour.data.dao.WorkDetailDao
+import com.digitaldairy.labour.data.model.WorkDetail
+import com.digitaldairy.labour.usecase.WorkDetailUsecase
 import java.text.SimpleDateFormat
+import java.util.Date
 
+@Preview
+@Composable
+fun LabourWorkListPreview() {
+    LabourWorkList(WorkListingViewModel(Application(), WorkDetailUsecase(object : WorkDetailDao{
+        override fun getAllAsLiveData(): LiveData<List<WorkDetail>> {
+        return MutableLiveData(mutableListOf(WorkDetail("test", Date(),1,"test",false,0,0))) //<List<WorkDetail>>(arrayListOf())
+        }
 
+        override fun loadAllById(userId: String): LiveData<List<WorkDetail>> {
+            return MutableLiveData(mutableListOf(WorkDetail("test", Date(),1,"test",false,0,0))) //<List<WorkDetail>>(arrayListOf())
+        }
+
+        override fun getWorkDetail(userId: String, date: Date): List<WorkDetail> {
+            return mutableListOf(WorkDetail("test", Date(),1,"test",false,0,0)) //<List<WorkDetail>>(arrayListOf())
+
+        }
+
+        override suspend fun insert(vararg workDetail: WorkDetail) {
+            TODO("Not yet implemented")
+        }
+
+        override suspend fun update(vararg workDetail: WorkDetail) {
+            TODO("Not yet implemented")
+        }
+
+        override suspend fun delete(workDetail: WorkDetail) {
+            TODO("Not yet implemented")
+        }
+
+    })), rememberNavController(),"")
+}
 @Composable
 fun LabourWorkList(
     workListingViewModel: WorkListingViewModel =
