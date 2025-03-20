@@ -3,6 +3,7 @@ package com.digitaldairy.labour.listing
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
@@ -11,6 +12,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -21,24 +23,34 @@ import com.digitaldairy.compose.appcomponents.AppTextField
 import com.digitaldairy.compose.appcomponents.theme.DigitalDairyTheme
 import com.digitaldairy.labour.R
 import com.digitaldairy.labour.Screen
-import com.digitaldairy.labour.data.model.People
+import com.digitaldairy.labour.data.model.Person
 import java.util.UUID
 
 @Composable
-fun PeopleEntryScreen(
-    peopleListingViewModel: PeopleListingViewModel? =
-        hiltViewModel(), navController: NavHostController? = null, people: People? = null
+fun PersonEntryScreen(
+    personListingViewModel: PersonListingViewModel? =
+        hiltViewModel(), navController: NavHostController? = null, person: Person? = null
 ) {
-    val peopleState: MutableState<People>
+    val personState: MutableState<Person>
     val screen: Screen
     var title = ""
-    if (people != null) {
-        peopleState = remember { mutableStateOf(people) }
+    if (person != null) {
+        personState = remember { mutableStateOf(person) }
         screen = Screen.EditScreen
         title = stringResource(R.string.edit_labor_details)
     } else {
-        peopleState = remember {
-            mutableStateOf(People(UUID.randomUUID().toString(), "", "", 0, "",""))
+        personState = remember {
+            mutableStateOf(
+                Person(
+                    uid = UUID.randomUUID().toString(),
+                    firstName = "",
+                    lastName = "",
+                    age = 0,
+                    phoneNumber = "",
+                    sex = "",
+                    address = ""
+                )
+            )
         }
         screen = Screen.NewScreen
         title = stringResource(R.string.create_new_labor)
@@ -52,8 +64,8 @@ fun PeopleEntryScreen(
                     currentScreen = screen,
                     navController = navController!!,
                     onDoneClick = {
-                        peopleState.value?.let {
-                            peopleListingViewModel?.saveData(it) {
+                        personState.value?.let {
+                            personListingViewModel?.saveData(it) {
                                 navController?.popBackStack()
                             }
                         }
@@ -74,28 +86,59 @@ fun PeopleEntryScreen(
             )
             Column {
                 AppTextField(
-                    peopleState.value?.firstName ?: "",
+                    personState.value?.firstName ?: "",
                     label = stringResource(R.string.first_name),
                     "Enter first name",
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(8.dp)
                 ) {
-                    peopleState.value?.firstName =
+                    personState.value?.firstName =
                         it
                 }
 
                 AppTextField(
-                    peopleState.value?.lastName ?: "",
+                    personState.value?.lastName ?: "",
                     label = stringResource(R.string.last_name),
                     "Enter last name",
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(8.dp)
                 ) {
-                    peopleState.value?.lastName =
+                    personState.value?.lastName =
                         it
                 }
+
+                AppTextField(
+                    personState.value?.phoneNumber ?: "",
+                    label = stringResource(R.string.phone_number),
+                    "Enter phone number",
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(8.dp),
+                    keyboardOptions = KeyboardOptions(
+                        keyboardType = KeyboardType.Number
+                    )
+                ) {
+                    personState.value.phoneNumber =
+                        it
+                }
+
+                AppTextField(
+                    personState.value?.age.toString() ?: "",
+                    label = stringResource(R.string.age),
+                    "Enter age",
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(8.dp),
+                    keyboardOptions = KeyboardOptions(
+                        keyboardType = KeyboardType.Number
+                    )
+                ) {
+                    personState.value.age =
+                        it.toInt()
+                }
+
             }
         }
     }
@@ -103,7 +146,17 @@ fun PeopleEntryScreen(
 
 @Preview(showSystemUi = true)
 @Composable
-fun PeopleEntryScreenPreview() {
+fun PersonEntryScreenPreview() {
 //    MainActivityContent(peopleListingViewModel) // Replace with the actual composable function name used in MainActivity
-    PeopleEntryScreen(people = People("test", "testasfsdf", "testasfd", 23, "test",""))
+    PersonEntryScreen(
+        person = Person(
+            "test",
+            firstName = "testasfsdf",
+            lastName = "testasfd",
+            age = 23,
+            phoneNumber = "",
+            sex = "",
+            address = ""
+        )
+    )
 }

@@ -1,6 +1,5 @@
 package com.digitaldairy.labour.workscreen
 
-import android.app.Application
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -14,27 +13,15 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
 import com.digitaldairy.common.AppToolbar
 import com.digitaldairy.common.ScreenTopLayout
 import com.digitaldairy.compose.appcomponents.LabelValueText
 import com.digitaldairy.labour.Screen
-import com.digitaldairy.labour.data.dao.WorkDetailDao
-import com.digitaldairy.labour.data.model.WorkDetail
-import com.digitaldairy.labour.usecase.WorkDetailUsecase
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
 import java.text.SimpleDateFormat
-import java.util.Date
 
 //@Preview
 //@Composable

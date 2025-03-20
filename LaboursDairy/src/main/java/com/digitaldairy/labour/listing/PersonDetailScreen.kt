@@ -1,20 +1,16 @@
 package com.digitaldairy.labour.listing
 
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.Card
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -28,8 +24,8 @@ import com.digitaldairy.labour.Screen
 
 
 @Composable
-fun PeopleDetailScreen(
-    peopleListingViewModel: PeopleListingViewModel = hiltViewModel(),
+fun PersonDetailScreen(
+    personListingViewModel: PersonListingViewModel = hiltViewModel(),
     navController: NavHostController,
     userId: String
 ) {
@@ -53,7 +49,7 @@ fun PeopleDetailScreen(
                 navController = navController
             )
             {
-                val personState = peopleListingViewModel.peopleListLiveData.collectAsState()
+                val personState = personListingViewModel.personListLiveData.collectAsState()
 
                 val people = personState.value.firstOrNull { it.uid == userId }
 

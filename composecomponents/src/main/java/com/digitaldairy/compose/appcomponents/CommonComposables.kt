@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.CheckboxColors
 import androidx.compose.material3.CheckboxDefaults
@@ -152,6 +153,7 @@ fun AppTextField(
     label: String = "",
     placeHolder: String = "",
     modifier: Modifier = Modifier,
+    keyboardOptions:KeyboardOptions = KeyboardOptions.Default,
     onValueChange: (text: String) -> Unit = {},
 ) {
     key(value) {
@@ -177,6 +179,7 @@ fun AppTextField(
                     fontSize = TextUnit(14.0F, TextUnitType.Sp)
                 )
             },
+            keyboardOptions = keyboardOptions,
             shape = RoundedCornerShape(5.dp),
             colors = TextFieldDefaults.colors(
                 focusedIndicatorColor = MaterialTheme.colorScheme.tertiary, // Hide default underline

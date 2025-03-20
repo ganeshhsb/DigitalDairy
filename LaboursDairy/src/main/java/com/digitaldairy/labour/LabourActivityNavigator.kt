@@ -8,24 +8,24 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
-import com.digitaldairy.labour.listing.PeopleDetailScreen
-import com.digitaldairy.labour.listing.PeopleEntryScreen
-import com.digitaldairy.labour.listing.PeopleListingScreen
-import com.digitaldairy.labour.listing.PeopleListingViewModel
+import com.digitaldairy.labour.listing.PersonDetailScreen
+import com.digitaldairy.labour.listing.PersonEntryScreen
+import com.digitaldairy.labour.listing.PersonListingScreen
+import com.digitaldairy.labour.listing.PersonListingViewModel
 import com.digitaldairy.labour.workscreen.LabourWorkEntry
 import com.digitaldairy.labour.workscreen.LabourWorkList
 import java.util.Date
 
 @Composable
 fun HostPage(
-    peopleListingViewModel: PeopleListingViewModel = hiltViewModel(),
+    personListingViewModel: PersonListingViewModel = hiltViewModel(),
     navController: NavHostController,
     canPop: MutableState<Boolean>,
     currentScreen: MutableState<Screen>
 ) {
     NavHost(navController = navController, startDestination = "home") {
         composable("home") {
-            PeopleListingScreen(navController = navController) { userId ->
+            PersonListingScreen(navController = navController) { userId ->
                 currentScreen.value = Screen.DetailScreen
                 canPop.value = true
                 navController.navigate("${Screen.DetailScreen.screenName}/$userId")
@@ -33,8 +33,8 @@ fun HostPage(
         }
         composable(Screen.NewScreen.screenName) { navBackStackEntry ->
             currentScreen.value = Screen.NewScreen
-            PeopleEntryScreen(
-                peopleListingViewModel = peopleListingViewModel,
+            PersonEntryScreen(
+                personListingViewModel = personListingViewModel,
                 navController = navController
             )
         }
@@ -48,9 +48,9 @@ fun HostPage(
         ) { navBackStackEntry ->
             val userId = navBackStackEntry.arguments?.getString("userId", "") ?: ""
             currentScreen.value = Screen.NewScreen
-            PeopleEntryScreen(peopleListingViewModel = peopleListingViewModel,
+            PersonEntryScreen(personListingViewModel = personListingViewModel,
                 navController = navController,
-                people = peopleListingViewModel.peopleListLiveData.value?.firstOrNull { it.uid == userId }
+                person = personListingViewModel.personListLiveData.value?.firstOrNull { it.uid == userId }
             )
         }
         composable(
@@ -62,8 +62,8 @@ fun HostPage(
             })
         ) { navBackStackEntry ->
             val userId = navBackStackEntry.arguments?.getString("userId", "") ?: ""
-            PeopleDetailScreen(
-                peopleListingViewModel = peopleListingViewModel,
+            PersonDetailScreen(
+                personListingViewModel = personListingViewModel,
                 navController = navController,
                 userId = userId
             )

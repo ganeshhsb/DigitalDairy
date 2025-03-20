@@ -9,7 +9,7 @@ import com.digitaldairy.labour.LabourRepository
 import com.digitaldairy.labour.RoomDataStore
 import com.digitaldairy.labour.data.AppDatabase
 import com.digitaldairy.labour.data.dao.AddressDao
-import com.digitaldairy.labour.data.dao.PeopleDao
+import com.digitaldairy.labour.data.dao.PersonDao
 import com.digitaldairy.labour.data.dao.WorkDetailDao
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.PersistentCacheSettings
@@ -26,8 +26,8 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 class AppModule {
     @Provides
-    fun providePeopleDao(database: AppDatabase): PeopleDao {
-        return database.peopleDao()
+    fun providePeopleDao(database: AppDatabase): PersonDao {
+        return database.personDao()
     }
 
     @Provides

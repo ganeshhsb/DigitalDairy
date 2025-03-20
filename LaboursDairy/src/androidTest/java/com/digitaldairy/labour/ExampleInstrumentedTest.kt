@@ -2,11 +2,10 @@ package com.digitaldairy.labour
 
 import androidx.activity.ComponentActivity
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
-import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.navigation.compose.rememberNavController
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.digitaldairy.labour.listing.PeopleListingScreen
+import com.digitaldairy.labour.listing.PersonListingScreen
 
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -34,7 +33,7 @@ class ExampleInstrumentedTest {
     @Test
     fun loading_showsLoadingSpinner() {
         composeTestRule.setContent {
-            PeopleListingScreen(
+            PersonListingScreen(
                 navController = rememberNavController()
             ) {}
         }

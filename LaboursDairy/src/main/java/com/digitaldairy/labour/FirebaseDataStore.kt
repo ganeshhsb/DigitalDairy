@@ -1,26 +1,26 @@
 package com.digitaldairy.labour
 
-import com.digitaldairy.labour.data.model.People
+import com.digitaldairy.labour.data.model.Person
 import com.digitaldairy.labour.data.model.WorkDetail
 import com.google.firebase.firestore.FirebaseFirestore
 
 class FirebaseDataStore(val firestore: FirebaseFirestore) {
 
-    fun insertPeople(people: People) {
-        addLabour(people)
+    fun insertPerson(person: Person) {
+        addLabour(person)
     }
 
     fun insertWorkDetail(uid:String, workDetail: WorkDetail) {
         addWorkDetail(uid, workDetail)
     }
 
-    private fun addLabour(people: People) {
+    private fun addLabour(person: Person) {
         val peopleFB = hashMapOf(
-            "uid" to people.uid,
-            "first_name" to people.firstName,
-            "last_name" to people.lastName,
+            "uid" to person.uid,
+            "first_name" to person.firstName,
+            "last_name" to person.lastName,
             "sex" to true, //people.sex,
-            "age" to people.age
+            "age" to person.age
         )
 
         firestore.collection("DigitalDairy").document("Person")

@@ -1,22 +1,23 @@
 package com.digitaldairy.labour.data.model
 
 import androidx.room.ColumnInfo
+import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.ForeignKey
-import androidx.room.PrimaryKey
+import androidx.room.Relation
 import java.util.Date
 
 @Entity(
     tableName = "work_detail",
     foreignKeys = [ForeignKey(
-        entity = People::class,
+        entity = Person::class,
         parentColumns = ["uid"],
-        childColumns = ["uid"]
+        childColumns = ["userCreatorId"]
     )],
-    primaryKeys = ["uid","date"]
+    primaryKeys = ["userCreatorId","date"]
 )
 data class WorkDetail(
-    @ColumnInfo(name = "uid") var uid: String,
+    @ColumnInfo(name = "userCreatorId") var uid: String,
     @ColumnInfo(name = "date") var date: Date,
     @ColumnInfo(name = "hours") var hours: Int,
     @ColumnInfo(name = "workDescription") var workDescription: String,
@@ -48,3 +49,12 @@ data class WorkDetail(
         return result
     }
 }
+
+data class PersonWithWorkDetail(
+    @Embedded val person: Person,
+    @Relation(
+        parentColumn = "uid",
+        entityColumn = "userCreatorId"
+    )
+    val workDetailList: List<WorkDetail>
+)

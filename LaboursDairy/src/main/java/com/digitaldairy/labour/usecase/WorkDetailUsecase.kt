@@ -1,6 +1,7 @@
 package com.digitaldairy.labour.usecase
 
 import com.digitaldairy.labour.data.dao.WorkDetailDao
+import com.digitaldairy.labour.data.model.PersonWithWorkDetail
 import com.digitaldairy.labour.data.model.WorkDetail
 import kotlinx.coroutines.flow.Flow
 import java.util.Date
@@ -19,11 +20,11 @@ class WorkDetailUsecase @Inject constructor(val dao: WorkDetailDao) {
         dao.delete(workDetail)
     }
 
-    fun getAllAsLiveData(uid: String): Flow<List<WorkDetail>> {
-        return dao.loadAllById(uid)
-    }
+//    fun getAllAsLiveData(uid: String): Flow<List<WorkDetail>> {
+//        return dao.loadAllById(uid)
+//    }
 
-    fun getWorkInfo(uid: String, date: Date): List<WorkDetail> {
-        return dao.getWorkDetail(uid, date)
+    fun getWorkInfo(uid: String, date: Date): PersonWithWorkDetail {
+        return dao.getWorkDetail(uid )
     }
 }

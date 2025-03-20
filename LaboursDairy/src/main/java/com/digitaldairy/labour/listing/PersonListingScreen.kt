@@ -1,7 +1,6 @@
 package com.digitaldairy.labour.listing
 
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -17,9 +16,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.key
-import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -31,21 +27,20 @@ import androidx.navigation.NavHostController
 import com.digitaldairy.labour.R
 import com.digitaldairy.common.AppToolbar
 import com.digitaldairy.common.ScreenTopLayout
-import com.digitaldairy.labour.data.model.People
+import com.digitaldairy.labour.data.model.Person
 import com.digitaldairy.compose.appcomponents.LabelValueText
 import com.digitaldairy.compose.appcomponents.theme.DigitalDairyTheme
 import com.digitaldairy.labour.Screen
-import junit.runner.Version.id
 
 
 @Composable
-fun PeopleListingScreen(
-    peopleListingViewModel: PeopleListingViewModel = hiltViewModel(),
+fun PersonListingScreen(
+    personListingViewModel: PersonListingViewModel = hiltViewModel(),
     navController: NavHostController,
     callback: (userId: String) -> Unit
 ) {
     val state =
-        peopleListingViewModel.peopleListLiveData.collectAsState(emptyList()) // remember { peopleListingViewModel.peopleListLiveData }
+        personListingViewModel.personListLiveData.collectAsState(emptyList()) // remember { peopleListingViewModel.peopleListLiveData }
     if (state.value == null) {
         LoadingScreen()
     } else {
@@ -83,7 +78,7 @@ fun PeopleListingScreen(
 }
 
 @Composable
-fun LaborItem(people: People, callback: ((userId: String) -> Unit)? = null) {
+fun LaborItem(person: Person, callback: ((userId: String) -> Unit)? = null) {
     val paddingModifier = Modifier
         .fillMaxWidth()
         .padding(10.dp)
@@ -96,12 +91,12 @@ fun LaborItem(people: People, callback: ((userId: String) -> Unit)? = null) {
         Column(Modifier
             .padding(8.dp)
             .clickable {
-                callback?.invoke(people.uid)
+                callback?.invoke(person.uid)
             }) {
 
             LabelValueText(
                 stringResource(R.string.name),
-                people.firstName + " " + people.lastName,
+                person.firstName + " " + person.lastName,
                 modifier = Modifier
                     .padding(8.dp)
                     .fillMaxWidth()
@@ -109,7 +104,7 @@ fun LaborItem(people: People, callback: ((userId: String) -> Unit)? = null) {
 
             LabelValueText(
                 stringResource(R.string.age),
-                people.age.toString(),
+                person.age.toString(),
                 modifier = Modifier
                     .padding(8.dp)
                     .fillMaxWidth()
@@ -123,10 +118,10 @@ fun LaborItem(people: People, callback: ((userId: String) -> Unit)? = null) {
 fun LaborItemPreview() {
     DigitalDairyTheme {
         LaborItem(
-            People(
+            Person(
                 firstName = "test", lastName = "test",
                 uid = "",
-                age = 12,
+                age = 12, phoneNumber = "",
                 address = "",
                 sex = ""
             )
@@ -143,8 +138,10 @@ fun LoadingScreen() {
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        CircularProgressIndicator(modifier = Modifier
-            .width(30.dp)
-            .height(30.dp))
+        CircularProgressIndicator(
+            modifier = Modifier
+                .width(30.dp)
+                .height(30.dp)
+        )
     }
 }

@@ -8,6 +8,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.digitaldairy.labour.LabourRepository
+import com.digitaldairy.labour.data.model.PersonWithWorkDetail
 import com.digitaldairy.labour.data.model.WorkDetail
 import com.digitaldairy.labour.usecase.WorkDetailUsecase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -18,6 +19,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -67,7 +69,7 @@ class WorkListingViewModel @Inject constructor(
     }
 
     fun getAllWorkEntryOf(uId: String): StateFlow<List<WorkDetail>> {
-        return repository.getAllWorkDetailsFor(uId).stateIn(
+        return repository.getAllWorkDetailsFor(uId).map { it.workDetailList }.stateIn(
             scope = viewModelScope, // Or any CoroutineScope
             started = SharingStarted.WhileSubscribed(5000), // Defines when to start/stop
             initialValue = emptyList() // Initial state
@@ -75,6 +77,6 @@ class WorkListingViewModel @Inject constructor(
     }
 
     fun getAllWorkEntryOf(uId: String, date:Date): List<WorkDetail> {
-        return repository.getWorkInfo(uId, date)
+        return repository.getWorkInfo(uId, date).workDetailList
     }
 }

@@ -22,9 +22,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.rememberNavController
 import com.digitaldairy.compose.appcomponents.theme.DigitalDairyTheme
-import com.digitaldairy.labour.data.model.People
+import com.digitaldairy.labour.data.model.Person
 import com.digitaldairy.labour.listing.LaborItem
-import com.digitaldairy.labour.listing.PeopleListingViewModel
+import com.digitaldairy.labour.listing.PersonListingViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 sealed class Screen(val screenName: String) {
@@ -39,18 +39,18 @@ sealed class Screen(val screenName: String) {
 
 @AndroidEntryPoint
 class LabourActivity : ComponentActivity() {
-    val peopleListingViewModel: PeopleListingViewModel by viewModels()
+    val personListingViewModel: PersonListingViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            MainActivityContent(peopleListingViewModel)
+            MainActivityContent(personListingViewModel)
         }
     }
 }
 
 @Composable
-fun MainActivityContent(peopleListingViewModel: PeopleListingViewModel) {
+fun MainActivityContent(personListingViewModel: PersonListingViewModel) {
     // You can mock the dependencies here if needed for preview
     // For example:
     // val fakePeopleListingViewModel = FakePeopleListingViewModel()
@@ -73,7 +73,7 @@ fun MainActivityContent(peopleListingViewModel: PeopleListingViewModel) {
                 .fillMaxWidth()
                 .fillMaxHeight()
         ) {
-            HostPage(peopleListingViewModel, navController, canPop, currentScreen)
+            HostPage(personListingViewModel, navController, canPop, currentScreen)
         }
 //        }
     }
@@ -100,9 +100,8 @@ fun FloatingActionButtonCompose(callback: () -> Unit) {
 @Composable
 fun MainActivityPreview() {
 //    MainActivityContent(peopleListingViewModel) // Replace with the actual composable function name used in MainActivity
-    LaborItem(People(
-        "test", "testasfsdf", "testasfd", 23, "test",
-        address ="test"
+    LaborItem(Person(
+        "test", "testasfsdf", "testasfd", 23, "","test", "test"
     ))
 }
 
