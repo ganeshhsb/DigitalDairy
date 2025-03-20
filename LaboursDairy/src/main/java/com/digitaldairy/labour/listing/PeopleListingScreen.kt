@@ -13,15 +13,18 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.Card
-import androidx.compose.material.MaterialTheme
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.key
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
@@ -30,8 +33,9 @@ import com.digitaldairy.common.AppToolbar
 import com.digitaldairy.common.ScreenTopLayout
 import com.digitaldairy.labour.data.model.People
 import com.digitaldairy.compose.appcomponents.LabelValueText
+import com.digitaldairy.compose.appcomponents.theme.DigitalDairyTheme
 import com.digitaldairy.labour.Screen
-import com.digitaldairy.labour.theme.HelloComposeTheme
+import junit.runner.Version.id
 
 
 @Composable
@@ -40,11 +44,12 @@ fun PeopleListingScreen(
     navController: NavHostController,
     callback: (userId: String) -> Unit
 ) {
-    val state = remember { peopleListingViewModel.peopleListLiveData }.observeAsState()
+    val state =
+        peopleListingViewModel.peopleListLiveData.collectAsState(emptyList()) // remember { peopleListingViewModel.peopleListLiveData }
     if (state.value == null) {
         LoadingScreen()
     } else {
-        HelloComposeTheme {
+        DigitalDairyTheme {
             ScreenTopLayout(
                 screen = Screen.LaborListing,
                 topBar = {
@@ -64,6 +69,7 @@ fun PeopleListingScreen(
                         .fillMaxHeight()
                 ) {
                     LazyColumn {
+
                         state.value?.forEach {
                             item {
                                 LaborItem(it, callback)
@@ -78,18 +84,26 @@ fun PeopleListingScreen(
 
 @Composable
 fun LaborItem(people: People, callback: ((userId: String) -> Unit)? = null) {
-    val paddingModifier = Modifier.fillMaxWidth().padding(10.dp)
-    Card(elevation = 10.dp, modifier = paddingModifier, border = BorderStroke(1.dp, Color.Black), backgroundColor = MaterialTheme.colors.secondary) {
-        Column(Modifier.padding(8.dp).clickable {
-            callback?.invoke(people.uid)
-        }) {
+    val paddingModifier = Modifier
+        .fillMaxWidth()
+        .padding(10.dp)
+    Card(
+        elevation = 10.dp,
+        modifier = paddingModifier,
+        border = BorderStroke(1.dp, Color.Black),
+        backgroundColor = MaterialTheme.colorScheme.tertiary
+    ) {
+        Column(Modifier
+            .padding(8.dp)
+            .clickable {
+                callback?.invoke(people.uid)
+            }) {
 
             LabelValueText(
                 stringResource(R.string.name),
                 people.firstName + " " + people.lastName,
                 modifier = Modifier
                     .padding(8.dp)
-                    .background(MaterialTheme.colors.secondary)
                     .fillMaxWidth()
             )
 
@@ -98,20 +112,39 @@ fun LaborItem(people: People, callback: ((userId: String) -> Unit)? = null) {
                 people.age.toString(),
                 modifier = Modifier
                     .padding(8.dp)
-                    .background(MaterialTheme.colors.secondary)
                     .fillMaxWidth()
             )
         }
     }
 }
 
+@Preview
+@Composable
+fun LaborItemPreview() {
+    DigitalDairyTheme {
+        LaborItem(
+            People(
+                firstName = "test", lastName = "test",
+                uid = "",
+                age = 12,
+                address = "",
+                sex = ""
+            )
+        ) {}
+    }
+}
+
 @Composable
 fun LoadingScreen() {
     Column(
-        modifier = Modifier.fillMaxWidth().fillMaxHeight(),
+        modifier = Modifier
+            .fillMaxWidth()
+            .fillMaxHeight(),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        CircularProgressIndicator(modifier = Modifier.width(30.dp).height(30.dp))
+        CircularProgressIndicator(modifier = Modifier
+            .width(30.dp)
+            .height(30.dp))
     }
 }

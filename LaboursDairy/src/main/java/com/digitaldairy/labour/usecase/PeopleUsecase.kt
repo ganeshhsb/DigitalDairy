@@ -3,6 +3,7 @@ package com.digitaldairy.labour.usecase
 import androidx.lifecycle.LiveData
 import com.digitaldairy.labour.data.dao.PeopleDao
 import com.digitaldairy.labour.data.model.People
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -16,7 +17,7 @@ class PeopleUsecase @Inject constructor(val dao: PeopleDao) {
         dao.update(people)
     }
 
-    fun getAllAsLiveData(): LiveData<List<People>> {
+    fun getAllAsLiveData(): Flow<List<People>> {
        return dao.getAllAsLiveData()
     }
 }

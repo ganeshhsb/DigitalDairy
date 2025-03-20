@@ -14,6 +14,7 @@ android {
 dependencies {
 
     implementation(project(":composecomponents"))
+    implementation("com.google.firebase:firebase-firestore-ktx:25.1.2")
     commonDependency()
     compose()
     room()

@@ -1,14 +1,17 @@
 package com.digitaldairy.labour.workscreen
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.runtime.Composable
@@ -19,6 +22,7 @@ import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -49,8 +53,7 @@ import java.util.Locale
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
 fun LabourWorkEntry(
-    workListingViewModel: WorkListingViewModel =
-        hiltViewModel(),
+    workListingViewModel: WorkListingViewModel = hiltViewModel(),
     navController: NavHostController,
     userId: String,
     date: Date? = null
@@ -75,11 +78,9 @@ fun LabourWorkEntry(
     if (workDetailState.value != null) {
         WorkDetailContent(
             navController,
-            // workListingViewModel,
-            workDetailState.value!!,
-            userId
+            workDetailState.value!!, userId
         ) {
-            workListingViewModel.addWorkEntry(workDetailState.value!!) {
+            workListingViewModel.addWorkEntry(userId, workDetailState.value!!) {
                 navController.popBackStack()
             }
         }
@@ -95,8 +96,7 @@ fun LabourWorkEntryPreview() {
         navController = rememberNavController(),
         workDetailState = WorkDetail("", Date(), 5, "", false, 0, 0),
         userId = "12345", // Sample userId
-    ) {
-    }
+    ) {}
 }
 
 @Composable
@@ -108,11 +108,9 @@ fun WorkDetailContent(
     onDoneClick: () -> Unit
 ) {
     key(workDetailState) {
-        ScreenTopLayout(
-            screen = Screen.LabourWorkEntry,
+        ScreenTopLayout(screen = Screen.LabourWorkEntry,
             topBar = {
-                AppToolbar(
-                    stringResource(R.string.work_entry),
+                AppToolbar(stringResource(R.string.work_entry),
                     Screen.LabourWorkEntry,
                     navController = navController,
                     onDoneClick = {
@@ -121,15 +119,14 @@ fun WorkDetailContent(
                         } else {
                             navController.popBackStack()
                         }
-                    }, onCancelClick = {
+                    },
+                    onCancelClick = {
                         navController.popBackStack()
-                    }
-                )
+                    })
             },
             navController = navController,
             showFloatingActionButton = false,
-            { navController.navigate("${Screen.LabourWorkEntry.screenName}/$userId") }
-        ) {
+            { navController.navigate("${Screen.LabourWorkEntry.screenName}/$userId") }) {
             if (workDetailState == null) {
                 AppText("There is nothing to show")
             } else {
@@ -165,26 +162,35 @@ fun WorkDetailContent(
 
                 Column(modifier = Modifier.padding(8.dp)) {
 
-                    Row(horizontalArrangement = Arrangement.End) {
+                    Row(
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier
+                            .background(color = MaterialTheme.colorScheme.tertiary)
+                            .padding(8.dp)
+                            .fillMaxWidth()
+                    ) {
                         val formatter = SimpleDateFormat("dd MMM yyyy", Locale.ROOT)
                         val date = formatter.format(selectedDate.value)
                         LabelValueText(stringResource(R.string.selected_date), date)
-                        Spacer(
-                            modifier = Modifier
-                                .width(1.dp)
-                                .height(16.dp)
-                        )
-                        Button(modifier = Modifier.padding(top = 1.dp),
-                            onClick = {
-                                showDatePicker.value = true
-                            }
-                        ) {
-                            Text(text = stringResource(R.string.show_date_picker))
+                        Button(onClick = {
+                            showDatePicker.value = true
+                        }) {
+                            Text(
+                                color = MaterialTheme.colorScheme.onTertiary,
+                                text = stringResource(R.string.show_date_picker),
+                                modifier = Modifier
+                                    .padding(top = 1.dp)
+                                    .background(MaterialTheme.colorScheme.secondary)
+                            )
                         }
                     }
                     AppTextField(
                         workDetailState?.hours.toString(),
-                        stringResource(R.string.hours_worked)
+                        stringResource(R.string.hours_worked),
+                        modifier = Modifier
+                            .padding(top = 8.dp)
+                            .fillMaxWidth()
                     ) {
                         if (it.isNotEmpty() && it.isDigitsOnly()) {
                             workDetailState?.hours = it.toInt()
@@ -195,19 +201,34 @@ fun WorkDetailContent(
                         workDetailState?.dailyWage.toString(),
                         stringResource(R.string.work_description),
                         stringResource(R.string.enter_work_description),
-                        modifier = Modifier.padding(top = 8.dp)
+                        modifier = Modifier
+                            .padding(top = 8.dp)
+                            .fillMaxWidth()
                     ) {
                         workDetailState?.workDescription = it
                     }
 
-                    AppCheckbox(workDetailState?.isPaid ?: false) {
-                        workDetailState?.isPaid = it
+                    Row(
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier
+                            .padding(top = 8.dp)
+                            .background(color = MaterialTheme.colorScheme.tertiary)
+                            .fillMaxWidth()
+                    ) {
+                        AppText("IsPaid", modifier = Modifier.padding(start = 8.dp))
+                        AppCheckbox(workDetailState?.isPaid ?: false) {
+                            workDetailState?.isPaid = it
+                        }
                     }
 
                     AppTextField(
                         workDetailState?.dailyWage.toString(),
                         stringResource(R.string.daily_wage),
-                        stringResource(R.string.enter_daily_wage)
+                        stringResource(R.string.enter_daily_wage),
+                        modifier = Modifier
+                            .padding(top = 8.dp)
+                            .fillMaxWidth()
                     ) {
                         if (it.isNotEmpty() && it.isDigitsOnly()) {
                             workDetailState?.dailyWage = it.toInt()

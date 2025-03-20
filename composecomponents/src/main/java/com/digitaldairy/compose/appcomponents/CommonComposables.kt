@@ -6,6 +6,8 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Checkbox
+import androidx.compose.material3.CheckboxColors
+import androidx.compose.material3.CheckboxDefaults
 import androidx.compose.material3.DatePicker
 import androidx.compose.material3.DatePickerDialog
 import androidx.compose.material3.DatePickerState
@@ -14,9 +16,12 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldColors
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
@@ -30,6 +35,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.TextUnitType
 import androidx.compose.ui.unit.dp
@@ -41,7 +47,11 @@ import java.util.Locale
 @Composable
 fun ToolbarButton(imageVector: ImageVector, callback: () -> Unit) {
     IconButton(onClick = callback) {
-        Icon(imageVector = imageVector, contentDescription = "")
+        Icon(
+            imageVector = imageVector,
+            contentDescription = "",
+            tint = MaterialTheme.colorScheme.onTertiary
+        )
     }
 }
 
@@ -65,14 +75,14 @@ fun AppDatePickerDialog(
                 selectedDate.value = datePickerState.selectedDateMillis ?: 0
                 onDateSelection(Date(datePickerState.selectedDateMillis ?: 0))
             }) {
-                Text(text = "Confirm")
+                Text(text = "Confirm", color = MaterialTheme.colorScheme.onTertiary)
             }
         },
         dismissButton = {
             TextButton(onClick = {
                 showDatePicker.value = false
             }) {
-                Text(text = "Cancel")
+                Text(text = "Cancel", color = MaterialTheme.colorScheme.onTertiary)
             }
         }
     ) {
@@ -103,7 +113,8 @@ fun DatePickerCompose() {
 
         val formatter = SimpleDateFormat("dd MMMM yyyy", Locale.ROOT)
         Text(
-            text = "Selected date: ${formatter.format(Date(datePickerState.selectedDateMillis!!))}"
+            text = "Selected date: ${formatter.format(Date(datePickerState.selectedDateMillis!!))}",
+            color = MaterialTheme.colorScheme.onTertiary
         )
 
 //        Text(
@@ -119,6 +130,13 @@ fun AppCheckbox(isChecked: Boolean, onCheckChanged: (isChecked: Boolean) -> Unit
         val checkedState = remember { mutableStateOf(isChecked) }
         Checkbox(
             checkedState.value,
+            colors = CheckboxDefaults.colors(
+                checkedColor = MaterialTheme.colorScheme.primary, // Color when checked
+                uncheckedColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f), // Color when unchecked
+                checkmarkColor = MaterialTheme.colorScheme.onPrimary, // Checkmark color
+                disabledCheckedColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.4f), // Disabled checked
+                disabledUncheckedColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.2f), // Disabled unchecked
+            ),
             onCheckedChange = {
                 checkedState.value = it
                 onCheckChanged(it)
@@ -127,13 +145,14 @@ fun AppCheckbox(isChecked: Boolean, onCheckChanged: (isChecked: Boolean) -> Unit
     }
 }
 
+@Preview
 @Composable
 fun AppTextField(
-    value: String,
+    value: String = "",
     label: String = "",
     placeHolder: String = "",
     modifier: Modifier = Modifier,
-    onValueChange: (text: String) -> Unit,
+    onValueChange: (text: String) -> Unit = {},
 ) {
     key(value) {
         val textFieldValueState = remember { mutableStateOf(value) }
@@ -158,7 +177,14 @@ fun AppTextField(
                     fontSize = TextUnit(14.0F, TextUnitType.Sp)
                 )
             },
-            shape = RoundedCornerShape(5.dp)
+            shape = RoundedCornerShape(5.dp),
+            colors = TextFieldDefaults.colors(
+                focusedIndicatorColor = MaterialTheme.colorScheme.tertiary, // Hide default underline
+                unfocusedIndicatorColor = MaterialTheme.colorScheme.tertiary,
+                cursorColor = Color.White, // Change cursor color
+                unfocusedContainerColor = MaterialTheme.colorScheme.tertiary,
+                focusedContainerColor = MaterialTheme.colorScheme.tertiary
+            )
         )
     }
 }
@@ -173,6 +199,7 @@ fun AppText(
     textStyle: TextStyle = LocalTextStyle.current
 ) {
     Text(
+        color = MaterialTheme.colorScheme.onTertiary,
         text = value,
         modifier = modifier,
         fontSize = TextUnit(fontSize, type = TextUnitType.Sp),
@@ -185,7 +212,9 @@ fun AppText(
 
 @Composable
 fun LabelText(
-    value: String, modifier: Modifier = Modifier, fontSize: Float = 14f,
+    value: String,
+    modifier: Modifier = Modifier.background(MaterialTheme.colorScheme.tertiary),
+    fontSize: Float = 14f,
     fontWeight: FontWeight? = null,
 ) {
     Text(
@@ -200,7 +229,9 @@ fun LabelText(
 
 @Composable
 fun ValueText(
-    value: String, modifier: Modifier = Modifier, fontSize: Float = 14f,
+    value: String,
+    modifier: Modifier = Modifier.background(MaterialTheme.colorScheme.tertiary),
+    fontSize: Float = 14f,
     fontWeight: FontWeight? = null,
 ) {
     Text(
@@ -230,7 +261,7 @@ fun BoldText(
 
 @Composable
 fun HeaderText(
-    value: String, modifier: Modifier = Modifier, fontSize: Float = 14f,
+    value: String, modifier: Modifier = Modifier, fontSize: Float = 16f,
     fontWeight: FontWeight? = null,
 ) {
     Text(
@@ -245,12 +276,12 @@ fun HeaderText(
 @Composable
 fun LabelValueText(
     label: String,
-    value: String, modifier: Modifier = Modifier, fontSize: Float = 14f,
+    value: String, modifier: Modifier = Modifier, fontSize: Float = 16f,
     fontWeight: FontWeight? = null,
 ) {
     Row(modifier = modifier) {
         LabelText(label, fontSize = fontSize)
-        Text(" :  ")
+        Text(" :  ", color = MaterialTheme.colorScheme.onTertiary)
         ValueText(value, fontSize = fontSize)
     }
 }

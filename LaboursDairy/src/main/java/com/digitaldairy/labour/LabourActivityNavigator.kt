@@ -17,7 +17,7 @@ import com.digitaldairy.labour.workscreen.LabourWorkList
 import java.util.Date
 
 @Composable
-fun hostPage(
+fun HostPage(
     peopleListingViewModel: PeopleListingViewModel = hiltViewModel(),
     navController: NavHostController,
     canPop: MutableState<Boolean>,

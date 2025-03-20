@@ -1,6 +1,5 @@
 package com.digitaldairy.labour.data.dao
 
-import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
@@ -8,6 +7,7 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
 import com.digitaldairy.labour.data.model.WorkDetail
+import kotlinx.coroutines.flow.Flow
 import java.util.Date
 
 @Dao
@@ -16,13 +16,13 @@ interface WorkDetailDao {
 //    suspend fun getAll(): List<WorkDetail>
 
     @Query("SELECT * FROM work_detail")
-    fun getAllAsLiveData(): LiveData<List<WorkDetail>>
+    fun getAllAsLiveData(): Flow<List<WorkDetail>>
 
 //    @Query("SELECT * FROM work_detail WHERE uid IN (:userIds)")
 //    suspend fun loadAllByIds(userIds: StringAr): LiveData<List<WorkDetail>>
 
     @Query("SELECT * FROM work_detail WHERE uid = :userId")
-    fun loadAllById(userId: String): LiveData<List<WorkDetail>>
+    fun loadAllById(userId: String): Flow<List<WorkDetail>>
 
     @Query("SELECT * FROM work_detail WHERE uid = :userId AND date =:date")
     fun getWorkDetail(userId: String, date: Date): List<WorkDetail>

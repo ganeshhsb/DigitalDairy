@@ -71,7 +71,7 @@ fun AppToolbar(
         currentScreen is Screen.EditScreen || currentScreen is Screen.NewScreen || currentScreen is Screen.LabourWorkEntry
     val showEditIcon = currentScreen is Screen.DetailScreen
     TopAppBar(
-        title = { Text(text = title) },
+        title = { Text(text = title, color = MaterialTheme.colorScheme.onTertiary) },
         navigationIcon = {
             if (canEdit) {
                 ToolbarButton(Icons.Filled.Close) { onCancelClick?.invoke() }

@@ -21,10 +21,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.rememberNavController
+import com.digitaldairy.compose.appcomponents.theme.DigitalDairyTheme
 import com.digitaldairy.labour.data.model.People
 import com.digitaldairy.labour.listing.LaborItem
 import com.digitaldairy.labour.listing.PeopleListingViewModel
-import com.digitaldairy.labour.theme.HelloComposeTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 sealed class Screen(val screenName: String) {
@@ -58,7 +58,7 @@ fun MainActivityContent(peopleListingViewModel: PeopleListingViewModel) {
     // You can also pass other dependencies as needed
 
     // Call the original content function here
-    HelloComposeTheme {
+    DigitalDairyTheme  {
         val currentScreen = remember {
             mutableStateOf(Screen.LaborListing as Screen)
         }
@@ -73,7 +73,7 @@ fun MainActivityContent(peopleListingViewModel: PeopleListingViewModel) {
                 .fillMaxWidth()
                 .fillMaxHeight()
         ) {
-            hostPage(peopleListingViewModel, navController, canPop, currentScreen)
+            HostPage(peopleListingViewModel, navController, canPop, currentScreen)
         }
 //        }
     }
@@ -96,12 +96,14 @@ fun FloatingActionButtonCompose(callback: () -> Unit) {
     }
 }
 
-
 @Preview(showSystemUi = true)
 @Composable
 fun MainActivityPreview() {
 //    MainActivityContent(peopleListingViewModel) // Replace with the actual composable function name used in MainActivity
-    LaborItem(People("test", "testasfsdf", "testasfd", 23, "test"))
+    LaborItem(People(
+        "test", "testasfsdf", "testasfd", 23, "test",
+        address ="test"
+    ))
 }
 
 

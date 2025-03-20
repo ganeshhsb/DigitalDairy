@@ -14,7 +14,7 @@
     <string name="last_name">Last Name</string>
     <string name="work_entry">Work Entry</string>
     <string name="selected_date">"Selected date"</string>
-    <string name="show_date_picker">"Show Date Picker"</string>
+    <string name="show_date_picker">"Select date"</string>
     <string name="hours_worked">"Hours worked"</string>
     <string name="work_description">Work description</string>
     <string name="enter_work_description">"Enter work description"</string>
