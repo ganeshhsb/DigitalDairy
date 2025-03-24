@@ -1,5 +1,6 @@
 package com.digitaldairy.labour.listing
 
+import android.content.res.Configuration
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -7,41 +8,43 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.Card
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
-import com.digitaldairy.labour.R
+import androidx.navigation.compose.rememberNavController
 import com.digitaldairy.common.AppToolbar
 import com.digitaldairy.common.ScreenTopLayout
-import com.digitaldairy.labour.data.model.Person
 import com.digitaldairy.compose.appcomponents.LabelValueText
 import com.digitaldairy.compose.appcomponents.theme.DigitalDairyTheme
+import com.digitaldairy.labour.R
 import com.digitaldairy.labour.Screen
+import com.digitaldairy.labour.data.model.Person
 
 
 @Composable
 fun PersonListingScreen(
-    personListingViewModel: PersonListingViewModel = hiltViewModel(),
+    personListingViewModel: IPersonListingViewModel = hiltViewModel<PersonListingViewModel>(),
     navController: NavHostController,
     callback: (userId: String) -> Unit
 ) {
     val state =
-        personListingViewModel.personListLiveData.collectAsState(emptyList()) // remember { peopleListingViewModel.peopleListLiveData }
-    if (state.value == null) {
+        personListingViewModel.personFlow.collectAsState(emptyList()) // remember { peopleListingViewModel.peopleListLiveData }
+    if (state.value.isEmpty()) {
         LoadingScreen()
     } else {
         DigitalDairyTheme {
@@ -102,14 +105,32 @@ fun LaborItem(person: Person, callback: ((userId: String) -> Unit)? = null) {
                     .fillMaxWidth()
             )
 
-            LabelValueText(
-                stringResource(R.string.age),
-                person.age.toString(),
-                modifier = Modifier
-                    .padding(8.dp)
-                    .fillMaxWidth()
-            )
+//            LabelValueText(
+//                stringResource(R.string.age),
+//                person.age.toString(),
+//                modifier = Modifier
+//                    .padding(8.dp)
+//                    .fillMaxWidth()
+//            )
         }
+    }
+}
+
+
+@Composable
+fun LoadingScreen() {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .fillMaxHeight(),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+    ) {
+        CircularProgressIndicator(
+            modifier = Modifier
+                .size(30.dp).testTag("loading_indicator"), strokeWidth = 4.dp
+
+        )
     }
 }
 
@@ -129,19 +150,12 @@ fun LaborItemPreview() {
     }
 }
 
+
+@Preview(name = "Light Mode", uiMode = Configuration.UI_MODE_NIGHT_NO, showBackground = true)
+@Preview(name = "Dark Mode", uiMode = Configuration.UI_MODE_NIGHT_YES, showBackground = true)
 @Composable
-fun LoadingScreen() {
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .fillMaxHeight(),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
-    ) {
-        CircularProgressIndicator(
-            modifier = Modifier
-                .width(30.dp)
-                .height(30.dp)
-        )
+fun PersonListingScreen(@PreviewParameter(PersonPreviewProvider::class) personListingViewModel: IPersonListingViewModel) {
+    DigitalDairyTheme {
+        PersonListingScreen(personListingViewModel, rememberNavController()) {}
     }
 }

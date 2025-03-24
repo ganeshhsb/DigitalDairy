@@ -8,28 +8,36 @@ import java.util.Date
 import javax.inject.Inject
 import javax.inject.Singleton
 
+interface ILabourRepository {
+    fun getAllPersonsDataAsFlow(): Flow<List<Person>>
+    suspend fun insertPerson(person: Person)
+    suspend fun insertWorkDetail(personId: String, workDetail: WorkDetail)
+    fun getAllWorkDetailsFor(uId: String): Flow<PersonWithWorkDetail>
+    fun getWorkInfo(uId: String, date: Date): PersonWithWorkDetail
+}
+
 @Singleton
 class LabourRepository @Inject constructor(
     private val roomDataStore: RoomDataStore,
     private val firebaseDataStore: FirebaseDataStore
-) {
-    fun getAllPersonsDataAsFlow(): Flow<List<Person>> {
+) : ILabourRepository {
+    override fun getAllPersonsDataAsFlow(): Flow<List<Person>> {
         return roomDataStore.getAllPersonsAsWorkflow()
     }
 
-    suspend fun insertPerson(person: Person) {
+    override suspend fun insertPerson(person: Person) {
         roomDataStore.insertPerson(person)
 //        firebaseDataStore.insertPeople(people)
     }
 
-    suspend fun insertWorkDetail(personId: String, workDetail: WorkDetail) {
+    override suspend fun insertWorkDetail(personId: String, workDetail: WorkDetail) {
         roomDataStore.insertWorkDetail(workDetail)
 //        firebaseDataStore.insertWorkDetail(personId, workDetail)
     }
 
-    fun getAllWorkDetailsFor(uId: String): Flow<PersonWithWorkDetail> =
+    override fun getAllWorkDetailsFor(uId: String): Flow<PersonWithWorkDetail> =
         roomDataStore.getAllWorkDetailsFor(uId)
 
-    fun getWorkInfo(uId: String, date: Date): PersonWithWorkDetail =
+    override fun getWorkInfo(uId: String, date: Date): PersonWithWorkDetail =
         roomDataStore.getWorkInfo(uId, date)
 }

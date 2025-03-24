@@ -1,3 +1,5 @@
+import Dependencies.hiltCompiler
+import Dependencies.hiltTesting
 import org.gradle.api.artifacts.dsl.DependencyHandler
 
 object Dependencies {
@@ -29,6 +31,8 @@ object Dependencies {
     const val composeMaterial = "androidx.compose.material:material:${Versions.composeVersion}"
     const val composeUITooling = "androidx.compose.ui:ui-tooling:${Versions.composeVersion}"
 
+    //    const val composeLifCycle =
+//        "androidx.lifecycle:lifecycle-runtime-compose-android:2.6.2"
     val composeDependencyList = arrayListOf(
         activityCompose,
         composeBom,
@@ -43,7 +47,8 @@ object Dependencies {
         material3,
         lifecycleViewmodelCompose,
         composeMaterial,
-        composeUITooling
+        composeUITooling,
+//        composeLifCycle
     )
 
     //  ---------- Compose Unit testing  ----------
@@ -53,13 +58,19 @@ object Dependencies {
     //  ---------- Unit testing  ----------
     const val junit = "junit:junit:4.13.2"
     const val androidxJunit = "androidx.test.ext:junit:1.1.5"
-    const val espressoCore = "androidx.test.espresso:espresso-core:3.5.1"
+    const val espressoCore = "androidx.test.espresso:espresso-core:3.5.0"
     val unitTestDependencyList = arrayListOf(androidxJunit, espressoCore)
 
     // -----------  hilt -----------
     const val hiltAndroid = "com.google.dagger:hilt-android:${Versions.hiltVersion}"
     const val hiltCompiler = "com.google.dagger:hilt-android-compiler:${Versions.hiltVersion}"
     const val hiltNavigationCompose = "androidx.hilt:hilt-navigation-compose:1.0.0"
+
+    //    androidTestImplementation "com.google.dagger:hilt-android-testing:2.50"
+//    kaptAndroidTest "com.google.dagger:hilt-android-compiler:2.50"
+    const val hiltTesting = "com.google.dagger:hilt-android-testing:${Versions.hiltVersion}"
+//    kaptAndroidTest "com.google.dagger:hilt-android-compiler:2.50"
+
     val hiltDependencyList = arrayListOf(hiltAndroid, hiltNavigationCompose)
 
     // -----------  Room-------------
@@ -87,6 +98,10 @@ object Dependencies {
 
     // coroutine testing
     var coroutineTesting = "org.jetbrains.kotlinx:kotlinx-coroutines-test"
+
+    // preference datastore
+    var preferenceDataStore =
+        "androidx.datastore:datastore-preferences:${Versions.prefDataStoreVersion}"
 
 }
 
@@ -131,7 +146,13 @@ fun DependencyHandler.hilt() {
     Dependencies.hiltDependencyList.forEach {
         implementation(it)
     }
-    kapt(Dependencies.hiltCompiler)
+
+    kapt(hiltCompiler)
+}
+
+fun DependencyHandler.hiltTesting() {
+    androidTestImplementation(hiltTesting)
+//    kaptAndroidTest(hiltCompiler)
 }
 
 fun DependencyHandler.rxjava() {
@@ -144,6 +165,10 @@ fun DependencyHandler.mockito() {
     Dependencies.mockitoDependencyList.forEach {
         testImplementation(it)
     }
+}
+
+fun DependencyHandler.prefDatastore() {
+    implementation(Dependencies.preferenceDataStore)
 }
 
 

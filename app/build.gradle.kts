@@ -51,8 +51,7 @@ android {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
-    dynamicFeatures += setOf(":Schedules")
-    //    dynamicFeatures += setOf(":labour")
+//    dynamicFeatures += setOf(":Schedules")
     kotlinOptions {
         jvmTarget = "17"
     }
@@ -68,14 +67,24 @@ dependencies {
     compose()
     room()
     hilt()
+//    hiltTesting()
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     composeTesting()
     roomTesting()
     unitTest()
     rxjava()
+    prefDatastore()
+    implementation("androidx.navigation:navigation-testing:2.8.9")
+
 }
 
 // Allow references to generated code
 kapt {
     correctErrorTypes = true
+}
+
+configurations.all {
+    resolutionStrategy {
+        force("com.squareup:javapoet:1.13.0")
+    }
 }

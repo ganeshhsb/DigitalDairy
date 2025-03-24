@@ -9,8 +9,9 @@ import com.digitaldairy.labour.data.model.Address
 import com.digitaldairy.labour.data.model.Person
 import com.digitaldairy.labour.data.model.WorkDetail
 import com.digitaldairy.labour.data.dao.WorkDetailDao
+import com.digitaldairy.labour.data.model.WorkCategory
 
-@Database(entities = [Person::class, WorkDetail::class, Address::class], version = 1)
+@Database(entities = [Person::class, WorkDetail::class, Address::class,WorkCategory::class], version = 3)
 @TypeConverters(value = [DateConverter::class])
 abstract class AppDatabase : RoomDatabase() {
     abstract fun personDao(): PersonDao

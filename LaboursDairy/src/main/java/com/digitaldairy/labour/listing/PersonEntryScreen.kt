@@ -1,5 +1,6 @@
 package com.digitaldairy.labour.listing
 
+import android.content.res.Configuration
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -7,6 +8,7 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -14,9 +16,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.digitaldairy.common.AppToolbar
 import com.digitaldairy.common.ScreenTopLayout
 import com.digitaldairy.compose.appcomponents.AppTextField
@@ -28,12 +32,14 @@ import java.util.UUID
 
 @Composable
 fun PersonEntryScreen(
-    personListingViewModel: PersonListingViewModel? =
-        hiltViewModel(), navController: NavHostController? = null, person: Person? = null
+    personListingViewModel: IPersonListingViewModel? =
+        hiltViewModel<PersonListingViewModel>(), navController: NavHostController? = null, userId: String? = null
 ) {
     val personState: MutableState<Person>
     val screen: Screen
     var title = ""
+    val person: Person? =
+        personListingViewModel?.personFlow?.collectAsState(emptyList())?.value?.firstOrNull { it.uid == userId }
     if (person != null) {
         personState = remember { mutableStateOf(person) }
         screen = Screen.EditScreen
@@ -136,7 +142,12 @@ fun PersonEntryScreen(
                     )
                 ) {
                     personState.value.age =
-                        it.toInt()
+                        try {
+                            it.toInt()
+                        } catch (exception: Exception) {
+                            0
+                        }
+
                 }
 
             }
@@ -144,19 +155,9 @@ fun PersonEntryScreen(
     }
 }
 
-@Preview(showSystemUi = true)
+@Preview(name = "Light Mode", uiMode = Configuration.UI_MODE_NIGHT_NO, showBackground = true)
+@Preview(name = "Dark Mode", uiMode = Configuration.UI_MODE_NIGHT_YES, showBackground = true)
 @Composable
-fun PersonEntryScreenPreview() {
-//    MainActivityContent(peopleListingViewModel) // Replace with the actual composable function name used in MainActivity
-    PersonEntryScreen(
-        person = Person(
-            "test",
-            firstName = "testasfsdf",
-            lastName = "testasfd",
-            age = 23,
-            phoneNumber = "",
-            sex = "",
-            address = ""
-        )
-    )
+fun PersonEntryScreenPreview(@PreviewParameter(PersonPreviewProvider::class) personListingViewModel: IPersonListingViewModel) {
+    PersonEntryScreen(personListingViewModel, rememberNavController(),"uid")
 }

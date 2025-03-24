@@ -18,6 +18,6 @@ dependencies {
     room()
     hilt()
     composeTesting()
-    roomTesting()
+//    roomTesting()
     unitTest()
 }

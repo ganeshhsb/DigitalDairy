@@ -4,8 +4,19 @@ import androidx.room.ColumnInfo
 import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.ForeignKey
+import androidx.room.PrimaryKey
 import androidx.room.Relation
 import java.util.Date
+
+@Entity(
+    tableName = "work_category",
+)
+data class WorkCategory(
+    //@PrimaryKey(autoGenerate = true) val id: Int = 0,
+    @PrimaryKey @ColumnInfo(name = "work_detail_id") val workId: String, // Should match WorkDetail’s primary key structure
+    @ColumnInfo(name = "category_name") val categoryName: String,
+    @ColumnInfo(name = "description") val description: String
+)
 
 @Entity(
     tableName = "work_detail",
@@ -14,7 +25,7 @@ import java.util.Date
         parentColumns = ["uid"],
         childColumns = ["userCreatorId"]
     )],
-    primaryKeys = ["userCreatorId","date"]
+    primaryKeys = ["userCreatorId", "date"]
 )
 data class WorkDetail(
     @ColumnInfo(name = "userCreatorId") var uid: String,
@@ -23,7 +34,8 @@ data class WorkDetail(
     @ColumnInfo(name = "workDescription") var workDescription: String,
     @ColumnInfo(name = "isPaid") var isPaid: Boolean,
     @ColumnInfo(name = "dailyWage") var dailyWage: Int,
-    @ColumnInfo(name = "amountPaid") var amountPaid: Int = 0
+    @ColumnInfo(name = "amountPaid") var amountPaid: Int = 0,
+    @ColumnInfo(name = "category") var category: String = "General"
 ) {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

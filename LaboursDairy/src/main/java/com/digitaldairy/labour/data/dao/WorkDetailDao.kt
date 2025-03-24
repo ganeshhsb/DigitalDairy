@@ -5,6 +5,7 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Transaction
 import androidx.room.Update
 import com.digitaldairy.labour.data.model.PersonWithWorkDetail
 import com.digitaldairy.labour.data.model.WorkDetail
@@ -16,6 +17,7 @@ interface WorkDetailDao {
 //    @Query("SELECT * FROM work_detail")
 //    suspend fun getAll(): List<WorkDetail>
 
+    @Transaction
     @Query("SELECT * FROM person  WHERE uid = :userId")
     fun getAllAsLiveData(userId: String): Flow<PersonWithWorkDetail>
 
@@ -25,6 +27,7 @@ interface WorkDetailDao {
 //    @Query("SELECT * FROM person WHERE uid = :userId")
 //    fun loadAllById(userId: String): Flow<List<WorkDetail>>
 
+    @Transaction
     @Query("SELECT * FROM person WHERE uid = :userId")
     fun getWorkDetail(userId: String): PersonWithWorkDetail
 

@@ -18,7 +18,7 @@ import java.util.Date
 
 @Composable
 fun HostPage(
-    personListingViewModel: PersonListingViewModel = hiltViewModel(),
+    personListingViewModel: PersonListingViewModel = hiltViewModel<PersonListingViewModel>(),
     navController: NavHostController,
     canPop: MutableState<Boolean>,
     currentScreen: MutableState<Screen>
@@ -48,9 +48,10 @@ fun HostPage(
         ) { navBackStackEntry ->
             val userId = navBackStackEntry.arguments?.getString("userId", "") ?: ""
             currentScreen.value = Screen.NewScreen
-            PersonEntryScreen(personListingViewModel = personListingViewModel,
+            PersonEntryScreen(
+                personListingViewModel = personListingViewModel,
                 navController = navController,
-                person = personListingViewModel.personListLiveData.value?.firstOrNull { it.uid == userId }
+                userId
             )
         }
         composable(

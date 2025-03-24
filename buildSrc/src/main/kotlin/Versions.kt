@@ -6,4 +6,5 @@ object Versions {
     const val rxJavaVersion = "3.0.0"
     const val mockitoKotlinVersion = "5.2.1"
     const val mockitoVersion = "2.21.0"
+    const val prefDataStoreVersion = "1.0.0"
 }
