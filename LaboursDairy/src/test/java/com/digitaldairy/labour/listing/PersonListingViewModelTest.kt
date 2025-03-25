@@ -2,7 +2,7 @@ package com.digitaldairy.labour.listing
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import app.cash.turbine.test
-import com.digitaldairy.labour.ILabourRepository
+import com.digitaldairy.labour.repo.ILabourRepository
 import com.digitaldairy.labour.data.model.Person
 import io.mockk.Runs
 import io.mockk.coEvery

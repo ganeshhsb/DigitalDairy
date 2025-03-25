@@ -6,7 +6,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.digitaldairy.labour.ILabourRepository
+import com.digitaldairy.labour.repo.ILabourRepository
 import com.digitaldairy.labour.WagePreferencesManager
 import com.digitaldairy.labour.data.model.WorkDetail
 import dagger.hilt.android.lifecycle.HiltViewModel

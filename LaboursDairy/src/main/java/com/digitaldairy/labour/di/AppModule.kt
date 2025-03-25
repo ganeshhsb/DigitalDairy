@@ -7,7 +7,7 @@ import androidx.room.RoomDatabase.QueryCallback
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.digitaldairy.labour.FirebaseDataStore
-import com.digitaldairy.labour.LabourRepository
+import com.digitaldairy.labour.repo.LabourRepository
 import com.digitaldairy.labour.RoomDataStore
 import com.digitaldairy.labour.WagePreferencesManager
 import com.digitaldairy.labour.data.AppDatabase

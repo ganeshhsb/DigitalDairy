@@ -5,6 +5,7 @@ import app.cash.turbine.test
 import com.digitaldairy.labour.data.model.Person
 import com.digitaldairy.labour.data.model.PersonWithWorkDetail
 import com.digitaldairy.labour.data.model.WorkDetail
+import com.digitaldairy.labour.repo.LabourRepository
 import io.mockk.Runs
 import io.mockk.coEvery
 import io.mockk.coVerify

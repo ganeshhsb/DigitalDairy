@@ -1,7 +1,7 @@
 package com.digitaldairy.labour.di
 
-import com.digitaldairy.labour.ILabourRepository
-import com.digitaldairy.labour.LabourRepository
+import com.digitaldairy.labour.repo.ILabourRepository
+import com.digitaldairy.labour.repo.LabourRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

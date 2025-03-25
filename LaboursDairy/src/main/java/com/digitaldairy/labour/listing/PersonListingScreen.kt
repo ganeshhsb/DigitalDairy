@@ -135,23 +135,6 @@ fun LoadingScreen() {
     }
 }
 
-@Preview
-@Composable
-fun LaborItemPreview() {
-    DigitalDairyTheme {
-        LaborItem(
-            Person(
-                firstName = "test", lastName = "test",
-                uid = "",
-                age = 12, phoneNumber = "",
-                address = "",
-                sex = ""
-            )
-        ) {}
-    }
-}
-
-
 @Preview(name = "Light Mode", uiMode = Configuration.UI_MODE_NIGHT_NO, showBackground = true)
 @Preview(name = "Dark Mode", uiMode = Configuration.UI_MODE_NIGHT_YES, showBackground = true)
 @Composable

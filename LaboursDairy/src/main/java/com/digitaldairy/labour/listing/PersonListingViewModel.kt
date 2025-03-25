@@ -3,7 +3,7 @@ package com.digitaldairy.labour.listing
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
-import com.digitaldairy.labour.ILabourRepository
+import com.digitaldairy.labour.repo.ILabourRepository
 import com.digitaldairy.labour.data.model.Person
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
