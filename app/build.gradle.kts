@@ -74,8 +74,6 @@ dependencies {
     unitTest()
     rxjava()
     prefDatastore()
-    implementation("androidx.navigation:navigation-testing:2.8.9")
-
 }
 
 // Allow references to generated code

@@ -1,5 +1,8 @@
+import Dependencies.hiltAndroid
 import Dependencies.hiltCompiler
+import Dependencies.hiltCompilerTesting
 import Dependencies.hiltTesting
+import Dependencies.navigationTesting
 import org.gradle.api.artifacts.dsl.DependencyHandler
 
 object Dependencies {
@@ -52,14 +55,27 @@ object Dependencies {
     )
 
     //  ---------- Compose Unit testing  ----------
+    const val navigationTesting = "androidx.navigation:navigation-testing:2.8.9"
     const val composeUIUnitTest = "androidx.compose.ui:ui-test-junit4"
     const val composeUITestManifest = "androidx.compose.ui:ui-test-manifest"
 
     //  ---------- Unit testing  ----------
     const val junit = "junit:junit:4.13.2"
+    // Coroutines Testing
+    const val kotlinCoroutineUT = "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.3"
+
+    // MockK for mocking dependencies
+    const val mockkUT = "io.mockk:mockk:1.13.8"
+
+    // AndroidX Core Testing (for InstantTaskExecutorRule)
+    const val androidxCoreUT = "androidx.arch.core:core-testing:2.2.0"
+
+    // Turbine for Flow testing
+    const val turbineUTForFlow = "app.cash.turbine:turbine:1.0.0"
+    val unitTestDependencyList = arrayListOf(junit, kotlinCoroutineUT, mockkUT, androidxCoreUT, turbineUTForFlow)
     const val androidxJunit = "androidx.test.ext:junit:1.1.5"
     const val espressoCore = "androidx.test.espresso:espresso-core:3.5.0"
-    val unitTestDependencyList = arrayListOf(androidxJunit, espressoCore)
+    val androidUnitTestDependencyList = arrayListOf(androidxJunit, espressoCore)
 
     // -----------  hilt -----------
     const val hiltAndroid = "com.google.dagger:hilt-android:${Versions.hiltVersion}"
@@ -69,6 +85,7 @@ object Dependencies {
     //    androidTestImplementation "com.google.dagger:hilt-android-testing:2.50"
 //    kaptAndroidTest "com.google.dagger:hilt-android-compiler:2.50"
     const val hiltTesting = "com.google.dagger:hilt-android-testing:${Versions.hiltVersion}"
+    const val hiltCompilerTesting = "com.google.dagger:hilt-android-compiler:${Versions.hiltVersion}"
 //    kaptAndroidTest "com.google.dagger:hilt-android-compiler:2.50"
 
     val hiltDependencyList = arrayListOf(hiltAndroid, hiltNavigationCompose)
@@ -97,7 +114,6 @@ object Dependencies {
     val mockitoDependencyList = arrayListOf(mockitoKotlin, mockito)
 
     // coroutine testing
-    var coroutineTesting = "org.jetbrains.kotlinx:kotlinx-coroutines-test"
 
     // preference datastore
     var preferenceDataStore =
@@ -120,13 +136,16 @@ fun DependencyHandler.compose() {
 }
 
 fun DependencyHandler.composeTesting() {
+    implementation(navigationTesting)
     implementation(Dependencies.composeUIUnitTest)
     implementation(Dependencies.composeUITestManifest)
 }
 
 fun DependencyHandler.unitTest() {
-    testImplementation(Dependencies.junit)
     Dependencies.unitTestDependencyList.forEach {
+        testImplementation(it)
+    }
+    Dependencies.androidUnitTestDependencyList.forEach {
         androidTestImplementation(it)
     }
 }
@@ -152,7 +171,7 @@ fun DependencyHandler.hilt() {
 
 fun DependencyHandler.hiltTesting() {
     androidTestImplementation(hiltTesting)
-//    kaptAndroidTest(hiltCompiler)
+    kaptAndroidTest(hiltCompilerTesting)
 }
 
 fun DependencyHandler.rxjava() {
