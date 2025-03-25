@@ -15,7 +15,6 @@ import androidx.compose.material.Card
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -25,6 +24,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.digitaldairy.common.AppToolbar
@@ -43,32 +43,32 @@ fun PersonListingScreen(
     callback: (userId: String) -> Unit
 ) {
     val state =
-        personListingViewModel.personFlow.collectAsState(emptyList()) // remember { peopleListingViewModel.peopleListLiveData }
-    if (state.value.isEmpty()) {
-        LoadingScreen()
-    } else {
-        DigitalDairyTheme {
-            ScreenTopLayout(
-                screen = Screen.LaborListing,
-                topBar = {
-                    AppToolbar(
-                        stringResource(R.string.labor_listing),
-                        Screen.LaborListing,
-                        navController = navController
-                    )
-                },
-                navController = navController,
-                showFloatingActionButton = true,
-                { navController.navigate(Screen.NewScreen.screenName) }
-            ) {
+        personListingViewModel.personFlow.collectAsStateWithLifecycle(emptyList()) // remember { peopleListingViewModel.peopleListLiveData }
+
+    DigitalDairyTheme {
+        ScreenTopLayout(
+            screen = Screen.LaborListing,
+            topBar = {
+                AppToolbar(
+                    stringResource(R.string.labor_listing),
+                    Screen.LaborListing,
+                    navController = navController
+                )
+            },
+            navController = navController,
+            showFloatingActionButton = true,
+            { navController.navigate(Screen.NewScreen.screenName) }
+        ) {
+            if (state.value.isEmpty()) {
+                LoadingScreen()
+            } else {
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
                         .fillMaxHeight()
                 ) {
                     LazyColumn {
-
-                        state.value?.forEach {
+                        state.value.forEach {
                             item {
                                 LaborItem(it, callback)
                             }
@@ -128,7 +128,8 @@ fun LoadingScreen() {
     ) {
         CircularProgressIndicator(
             modifier = Modifier
-                .size(30.dp).testTag("loading_indicator"), strokeWidth = 4.dp
+                .size(30.dp)
+                .testTag("loading_indicator"), strokeWidth = 4.dp
 
         )
     }

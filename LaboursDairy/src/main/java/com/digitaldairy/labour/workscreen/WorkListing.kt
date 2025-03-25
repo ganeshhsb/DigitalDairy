@@ -13,13 +13,13 @@ import androidx.compose.material.Card
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.digitaldairy.common.AppToolbar
@@ -36,7 +36,7 @@ fun LabourWorkList(
 ) {
     DigitalDairyTheme {
 
-        val entries = workListingViewModel.getAllWorkEntryOf(userId).collectAsState(emptyList())
+        val entries = workListingViewModel.getAllWorkEntryOf(userId).collectAsStateWithLifecycle(emptyList())
         ScreenTopLayout(
             screen = Screen.LabourWorkListing,
             topBar = {

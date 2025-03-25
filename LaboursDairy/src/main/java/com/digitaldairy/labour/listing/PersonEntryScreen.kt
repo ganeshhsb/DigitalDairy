@@ -8,7 +8,6 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -19,6 +18,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.digitaldairy.common.AppToolbar
@@ -39,7 +39,7 @@ fun PersonEntryScreen(
     val screen: Screen
     var title = ""
     val person: Person? =
-        personListingViewModel?.personFlow?.collectAsState(emptyList())?.value?.firstOrNull { it.uid == userId }
+        personListingViewModel?.personFlow?.collectAsStateWithLifecycle(emptyList())?.value?.firstOrNull { it.uid == userId }
     if (person != null) {
         personState = remember { mutableStateOf(person) }
         screen = Screen.EditScreen

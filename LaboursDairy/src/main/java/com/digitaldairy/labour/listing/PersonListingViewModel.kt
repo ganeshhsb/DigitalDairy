@@ -4,7 +4,6 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.digitaldairy.labour.ILabourRepository
-import com.digitaldairy.labour.LabourRepository
 import com.digitaldairy.labour.data.model.Person
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -15,7 +14,6 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.withContext
 
 interface IPersonListingViewModel {
@@ -28,9 +26,20 @@ class PersonListingViewModel @Inject constructor(
     application: Application,
     var repository: ILabourRepository
 ) : AndroidViewModel(application), IPersonListingViewModel {
+    private var scope: CoroutineScope = this.viewModelScope
+
+    constructor(
+        application: Application,
+        repository: ILabourRepository,
+        scope: CoroutineScope
+    ) : this(application, repository) {
+        this.scope = scope // Use testScope in tests
+    }
+
+
     override var personFlow: StateFlow<List<Person>> =
         repository.getAllPersonsDataAsFlow().stateIn(
-            scope = viewModelScope, // Or any CoroutineScope
+            scope = scope, // Or any CoroutineScope
             started = SharingStarted.WhileSubscribed(5000), // Defines when to start/stop
             initialValue = emptyList() // Initial state
         )
@@ -45,12 +54,7 @@ class PersonListingViewModel @Inject constructor(
         }
     }
 
-    fun setPeople(list: List<Person>) {
-        personFlow = flow<List<Person>> {  }.stateIn(TestScope(), SharingStarted.WhileSubscribed(), list)
-    }
-
     companion object {
-
         public fun getFake(withData: Boolean = true): IPersonListingViewModel {
             return object : IPersonListingViewModel {
                 override var personFlow: StateFlow<List<Person>> = flow<List<Person>> {
@@ -75,10 +79,8 @@ class PersonListingViewModel @Inject constructor(
 
                 ) // Initial state
             } else {
-                emptyList<Person>()
+                emptyList()
             }
         }
-
-
     }
 }

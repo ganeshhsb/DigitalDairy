@@ -50,6 +50,22 @@ dependencies {
     unitTest()
     prefDatastore()
     implementation("com.squareup:javapoet:1.13.0")// Ensure latest version
+
+
+    // Coroutines Testing
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.3")
+
+    // MockK for mocking dependencies
+    testImplementation("io.mockk:mockk:1.13.8")
+
+    // JUnit
+    testImplementation("junit:junit:4.13.2")
+
+    // AndroidX Core Testing (for InstantTaskExecutorRule)
+    testImplementation("androidx.arch.core:core-testing:2.2.0")
+
+    // Turbine for Flow testing
+    testImplementation("app.cash.turbine:turbine:1.0.0")
 }
 configurations.all {
     resolutionStrategy {
