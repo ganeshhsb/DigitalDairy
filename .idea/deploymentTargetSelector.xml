@@ -5,7 +5,19 @@
       <SelectionState runConfigName="app">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="PersonListingScreenTest (1)">
+      <SelectionState runConfigName="insertDailyWork_getDailyWork_success()">
+        <option name="selectionMode" value="DROPDOWN" />
+      </SelectionState>
+      <SelectionState runConfigName="RoomDbBenchmarkTest">
+        <option name="selectionMode" value="DROPDOWN" />
+      </SelectionState>
+      <SelectionState runConfigName="insertMultipleDailyWork_getDailyWork_success()">
+        <option name="selectionMode" value="DROPDOWN" />
+      </SelectionState>
+      <SelectionState runConfigName="Tests in 'com.digitaldairy.labour.data.dao'">
+        <option name="selectionMode" value="DROPDOWN" />
+      </SelectionState>
+      <SelectionState runConfigName="insertMultipleDailyWorkWithCategory_getDailyWork_success()">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
     </selectionStates>

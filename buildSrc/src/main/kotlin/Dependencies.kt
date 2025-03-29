@@ -61,6 +61,7 @@ object Dependencies {
 
     //  ---------- Unit testing  ----------
     const val junit = "junit:junit:4.13.2"
+
     // Coroutines Testing
     const val kotlinCoroutineUT = "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.3"
 
@@ -72,7 +73,8 @@ object Dependencies {
 
     // Turbine for Flow testing
     const val turbineUTForFlow = "app.cash.turbine:turbine:1.0.0"
-    val unitTestDependencyList = arrayListOf(junit, kotlinCoroutineUT, mockkUT, androidxCoreUT, turbineUTForFlow)
+    val unitTestDependencyList =
+        arrayListOf(junit, kotlinCoroutineUT, mockkUT, androidxCoreUT, turbineUTForFlow)
     const val androidxJunit = "androidx.test.ext:junit:1.1.5"
     const val espressoCore = "androidx.test.espresso:espresso-core:3.5.0"
     val androidUnitTestDependencyList = arrayListOf(androidxJunit, espressoCore)
@@ -85,7 +87,8 @@ object Dependencies {
     //    androidTestImplementation "com.google.dagger:hilt-android-testing:2.50"
 //    kaptAndroidTest "com.google.dagger:hilt-android-compiler:2.50"
     const val hiltTesting = "com.google.dagger:hilt-android-testing:${Versions.hiltVersion}"
-    const val hiltCompilerTesting = "com.google.dagger:hilt-android-compiler:${Versions.hiltVersion}"
+    const val hiltCompilerTesting =
+        "com.google.dagger:hilt-android-compiler:${Versions.hiltVersion}"
 //    kaptAndroidTest "com.google.dagger:hilt-android-compiler:2.50"
 
     val hiltDependencyList = arrayListOf(hiltAndroid, hiltNavigationCompose)
@@ -119,6 +122,19 @@ object Dependencies {
     var preferenceDataStore =
         "androidx.datastore:datastore-preferences:${Versions.prefDataStoreVersion}"
 
+    var benchmarkJunit = "androidx.benchmark:benchmark-junit4:1.1.0"
+    var benchmarkMacro = "androidx.benchmark:benchmark-macro:1.1.0"
+
+    var jankMonitor = "androidx.test:monitor:1.4.0"
+}
+
+fun DependencyHandler.jankMonitor() {
+    androidTestImplementation(Dependencies.jankMonitor)
+}
+
+fun DependencyHandler.benchmark() {
+    androidTestImplementation(Dependencies.benchmarkMacro)
+    androidTestImplementation(Dependencies.benchmarkJunit)
 }
 
 fun DependencyHandler.commonDependency() {

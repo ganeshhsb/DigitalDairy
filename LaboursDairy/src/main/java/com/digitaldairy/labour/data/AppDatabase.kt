@@ -7,11 +7,17 @@ import com.digitaldairy.labour.data.dao.AddressDao
 import com.digitaldairy.labour.data.dao.PersonDao
 import com.digitaldairy.labour.data.dao.WorkDetailDao
 import com.digitaldairy.labour.data.model.Address
+import com.digitaldairy.labour.data.model.DailyWork
+import com.digitaldairy.labour.data.model.GroupWork
+import com.digitaldairy.labour.data.model.LabourGroup
 import com.digitaldairy.labour.data.model.Person
+import com.digitaldairy.labour.data.model.WorkAndCategoryCrossRef
 import com.digitaldairy.labour.data.model.WorkCategory
-import com.digitaldairy.labour.data.model.WorkDetail
 
-@Database(entities = [Person::class, WorkDetail::class, Address::class,WorkCategory::class], version = 3)
+@Database(
+    entities = [Person::class, DailyWork::class, GroupWork::class, LabourGroup::class, Address::class, WorkCategory::class, WorkAndCategoryCrossRef::class],
+    version = 3
+)
 @TypeConverters(value = [DateConverter::class])
 abstract class AppDatabase : RoomDatabase() {
     abstract fun personDao(): PersonDao

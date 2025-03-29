@@ -31,7 +31,7 @@ import com.digitaldairy.common.AppToolbar
 import com.digitaldairy.common.ScreenTopLayout
 import com.digitaldairy.compose.appcomponents.LabelValueText
 import com.digitaldairy.compose.appcomponents.theme.DigitalDairyTheme
-import com.digitaldairy.labour.R
+import com.digitaldairy.R
 import com.digitaldairy.labour.Screen
 import com.digitaldairy.labour.data.model.Person
 
@@ -94,7 +94,7 @@ fun LaborItem(person: Person, callback: ((userId: String) -> Unit)? = null) {
         Column(Modifier
             .padding(8.dp)
             .clickable {
-                callback?.invoke(person.uid)
+                callback?.invoke(person.personId.toString())
             }) {
 
             LabelValueText(

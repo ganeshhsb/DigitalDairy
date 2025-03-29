@@ -8,6 +8,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.digitaldairy.labour.repo.ILabourRepository
 import com.digitaldairy.labour.WagePreferencesManager
+import com.digitaldairy.labour.data.model.DailyWork
+import com.digitaldairy.labour.data.model.DailyWorkWithCategory
+import com.digitaldairy.labour.data.model.DayOfTheWork
+import com.digitaldairy.labour.data.model.WorkCategory
 import com.digitaldairy.labour.data.model.WorkDetail
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
@@ -21,12 +25,13 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.util.Calendar
 import java.util.Date
+import java.util.UUID
 import javax.inject.Inject
 
 interface IWorkListingViewModel {
-    fun addWorkEntry(personId: String, workDetail: WorkDetail, onDone: () -> Unit)
-    fun getAllWorkEntryOf(uId: String): StateFlow<List<WorkDetail>>
-    fun getAllWorkEntryOf(uId: String, date: Date): List<WorkDetail>
+    fun addWorkEntry(personId: String, workDetail: DailyWork, onDone: () -> Unit)
+    fun getAllWorkEntryOf(uId: String): StateFlow<List<DailyWorkWithCategory>>
+    fun getAllWorkEntryOf(uId: String, date: Date): List<DailyWorkWithCategory>
 }
 
 @HiltViewModel
@@ -54,7 +59,7 @@ class WorkListingViewModel @Inject constructor(
 
     override fun addWorkEntry(
         personId: String,
-        workDetail: WorkDetail,
+        workDetail: DailyWork,
         onDone: () -> Unit
     ) {
         viewModelScope.launch(Dispatchers.IO) {
@@ -74,7 +79,7 @@ class WorkListingViewModel @Inject constructor(
         }
     }
 
-    override fun getAllWorkEntryOf(uId: String): StateFlow<List<WorkDetail>> {
+    override fun getAllWorkEntryOf(uId: String): StateFlow<List<DailyWorkWithCategory>> {
         return repository.getAllWorkDetailsFor(uId).map { it.workDetailList }.stateIn(
             scope = viewModelScope, // Or any CoroutineScope
             started = SharingStarted.WhileSubscribed(5000), // Defines when to start/stop
@@ -82,7 +87,7 @@ class WorkListingViewModel @Inject constructor(
         )
     }
 
-    override fun getAllWorkEntryOf(uId: String, date: Date): List<WorkDetail> {
+    override fun getAllWorkEntryOf(uId: String, date: Date): List<DailyWorkWithCategory> {
         return repository.getWorkInfo(uId, date).workDetailList
     }
 
@@ -91,29 +96,55 @@ class WorkListingViewModel @Inject constructor(
             return object : IWorkListingViewModel {
                 override fun addWorkEntry(
                     personId: String,
-                    workDetail: WorkDetail,
+                    workDetail: DailyWork,
                     onDone: () -> Unit
                 ) {
 
                 }
 
-                override fun getAllWorkEntryOf(uId: String): StateFlow<List<WorkDetail>> {
-                    return flow<List<WorkDetail>> { getData() }.stateIn(
+                override fun getAllWorkEntryOf(uId: String): StateFlow<List<DailyWorkWithCategory>> {
+                    return flow<List<DailyWorkWithCategory>> {
+                        geDailyWorkWithCategory()
+                    }.stateIn(
                         CoroutineScope(Dispatchers.Unconfined),
                         SharingStarted.Eagerly,
-                        getData()
+                        geDailyWorkWithCategory()
                     )
                 }
 
-                override fun getAllWorkEntryOf(uId: String, date: Date): List<WorkDetail> {
-                    return getData()
+                override fun getAllWorkEntryOf(
+                    uId: String,
+                    date: Date
+                ): List<DailyWorkWithCategory> {
+                    return geDailyWorkWithCategory()
                 }
 
-                fun getData(): List<WorkDetail> {
+                fun geDailyWorkWithCategory(): List<DailyWorkWithCategory> {
+                    return getData().map {
+                        DailyWorkWithCategory(it, WorkCategory("category", "category", "category"))
+                    }
+                }
+
+                fun getData(): List<DailyWork> {
                     return if (withData) {
                         listOf(
-                            WorkDetail("uid", Date(), 3, "Land scaping", false, 6, 0, "Ganeral"),
-                            WorkDetail("uid", Date(), 3, "Land scaping2", false, 6, 0, "ABC")
+                            DailyWork(
+
+                                UUID.randomUUID(),
+                                Date(),
+                                3,
+                                "Land scaping", 200,
+
+                                DayOfTheWork.MORNING,
+                            ),
+                            DailyWork(
+
+                                UUID.randomUUID(),
+                                Date(),
+                                3,
+                                "Land scaping2", 200,
+                                DayOfTheWork.MORNING,
+                            )
                         )
                     } else {
                         emptyList()

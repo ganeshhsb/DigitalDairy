@@ -25,9 +25,10 @@ import com.digitaldairy.common.AppToolbar
 import com.digitaldairy.common.ScreenTopLayout
 import com.digitaldairy.compose.appcomponents.AppTextField
 import com.digitaldairy.compose.appcomponents.theme.DigitalDairyTheme
-import com.digitaldairy.labour.R
+import com.digitaldairy.R
 import com.digitaldairy.labour.Screen
 import com.digitaldairy.labour.data.model.Person
+import com.digitaldairy.labour.data.model.SexType
 import java.util.UUID
 
 @Composable
@@ -39,7 +40,7 @@ fun PersonEntryScreen(
     val screen: Screen
     var title = ""
     val person: Person? =
-        personListingViewModel?.personFlow?.collectAsStateWithLifecycle(emptyList())?.value?.firstOrNull { it.uid == userId }
+        personListingViewModel?.personFlow?.collectAsStateWithLifecycle(emptyList())?.value?.firstOrNull { it.personId.toString() == userId }
     if (person != null) {
         personState = remember { mutableStateOf(person) }
         screen = Screen.EditScreen
@@ -48,12 +49,12 @@ fun PersonEntryScreen(
         personState = remember {
             mutableStateOf(
                 Person(
-                    uid = UUID.randomUUID().toString(),
+                    personId = UUID.randomUUID(),
                     firstName = "",
                     lastName = "",
                     age = 0,
                     phoneNumber = "",
-                    sex = "",
+                    sex = SexType.MALE,
                     address = ""
                 )
             )

@@ -47,8 +47,10 @@ import com.digitaldairy.compose.appcomponents.AppText
 import com.digitaldairy.compose.appcomponents.AppTextField
 import com.digitaldairy.compose.appcomponents.LabelValueText
 import com.digitaldairy.compose.appcomponents.theme.DigitalDairyTheme
-import com.digitaldairy.labour.R
+import com.digitaldairy.R
 import com.digitaldairy.labour.Screen
+import com.digitaldairy.labour.data.model.DailyWork
+import com.digitaldairy.labour.data.model.DayOfTheWork
 import com.digitaldairy.labour.data.model.WorkDetail
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -56,6 +58,7 @@ import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
 import java.util.Locale
+import java.util.UUID
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
@@ -67,17 +70,28 @@ fun LabourWorkEntry(
 ) {
     DigitalDairyTheme {
         val scope = rememberCoroutineScope()
-        val workDetailState: MutableState<WorkDetail?> =
-            remember { mutableStateOf(WorkDetail(userId, Date(), 6, "", false, 200)) }
+        val workDetailState: MutableState<DailyWork?> =
+            remember {
+                mutableStateOf(
+                    DailyWork(
+                        UUID.randomUUID(),
+                        Date(),
+                        6,
+                        "",
+                        200,  DayOfTheWork.MORNING,
+                    )
+                )
+            }
         LaunchedEffect("Test") {
 
             if (date == null) {
-                workDetailState.value = WorkDetail(userId, Date(), 6, "", false, 200)
+                workDetailState.value =
+                    DailyWork(UUID.randomUUID(), Date(), 6, "", 200,  DayOfTheWork.MORNING)
             } else {
                 scope.launch(Dispatchers.IO) {
                     val data = workListingViewModel.getAllWorkEntryOf(userId, date).first()
                     scope.launch {
-                        workDetailState.value = data
+                        workDetailState.value = data.dailyWork
                     }
                 }
             }
@@ -102,7 +116,7 @@ fun LabourWorkEntry(
 @OptIn(ExperimentalMaterial3Api::class)
 fun WorkDetailContent(
     navController: NavHostController,
-    workDetailState: WorkDetail,
+    workDetailState: DailyWork,
     userId: String,
     onDoneClick: () -> Unit
 ) {
@@ -207,19 +221,19 @@ fun WorkDetailContent(
                         workDetailState?.workDescription = it
                     }
 
-                    Row(
-                        horizontalArrangement = Arrangement.SpaceBetween,
-                        verticalAlignment = Alignment.CenterVertically,
-                        modifier = Modifier
-                            .padding(top = 8.dp)
-                            .background(color = MaterialTheme.colorScheme.tertiary)
-                            .fillMaxWidth()
-                    ) {
-                        AppText("IsPaid", modifier = Modifier.padding(start = 8.dp))
-                        AppCheckbox(workDetailState?.isPaid ?: false) {
-                            workDetailState?.isPaid = it
-                        }
-                    }
+//                    Row(
+//                        horizontalArrangement = Arrangement.SpaceBetween,
+//                        verticalAlignment = Alignment.CenterVertically,
+//                        modifier = Modifier
+//                            .padding(top = 8.dp)
+//                            .background(color = MaterialTheme.colorScheme.tertiary)
+//                            .fillMaxWidth()
+//                    ) {
+//                        AppText("IsPaid", modifier = Modifier.padding(start = 8.dp))
+//                        AppCheckbox(workDetailState?.isPaid ?: false) {
+//                            workDetailState?.isPaid = it
+//                        }
+//                    }
 
                     AppTextField(
                         workDetailState?.dailyWage.toString(),

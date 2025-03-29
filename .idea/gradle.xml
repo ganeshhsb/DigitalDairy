@@ -25,6 +25,7 @@
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/buildSrc" />
             <option value="$PROJECT_DIR$/composecomponents" />
+            <option value="$PROJECT_DIR$/macrobenchmark" />
           </set>
         </option>
         <option name="resolveExternalAnnotations" value="false" />

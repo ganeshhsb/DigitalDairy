@@ -28,7 +28,7 @@ import com.digitaldairy.common.AppToolbar
 import com.digitaldairy.common.ScreenTopLayout
 import com.digitaldairy.compose.appcomponents.LabelValueText
 import com.digitaldairy.compose.appcomponents.theme.DigitalDairyTheme
-import com.digitaldairy.labour.R
+import com.digitaldairy.R
 import com.digitaldairy.labour.Screen
 
 
@@ -60,7 +60,7 @@ fun PersonDetailScreen(
             {
                 val personState = personListingViewModel.personFlow.collectAsStateWithLifecycle()
 
-                val people = personState.value.firstOrNull { it.uid == userId }
+                val people = personState.value.firstOrNull { it.personId.toString() == userId }
 
                 if (personState.value.isEmpty() || people == null) {
                     LoadingScreen()
@@ -69,7 +69,7 @@ fun PersonDetailScreen(
                         .fillMaxWidth()
                         .background(MaterialTheme.colorScheme.tertiary)
                         .clickable {
-                            navController.navigate("${Screen.LabourWorkListing.screenName}/${people?.uid}")
+                            navController.navigate("${Screen.LabourWorkListing.screenName}/${people?.personId}")
                         }) {
                         val paddingModifier = Modifier
                             .fillMaxWidth()
@@ -135,7 +135,7 @@ class PersonPreviewProvider : PreviewParameterProvider<IPersonListingViewModel> 
 @Preview(name = "Dark Mode", uiMode = Configuration.UI_MODE_NIGHT_YES, showBackground = true)
 @Composable
 fun PersonDetailScreen(
-    @PreviewParameter(PersonPreviewProvider::class) personListingViewModel:IPersonListingViewModel
+    @PreviewParameter(PersonPreviewProvider::class) personListingViewModel: IPersonListingViewModel
 ) {
     PersonDetailScreen(personListingViewModel, rememberNavController(), "uid")
 }

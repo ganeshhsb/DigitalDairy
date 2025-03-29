@@ -1,11 +1,13 @@
 package com.digitaldairy.labour
 
 import com.digitaldairy.labour.data.AppDatabase
+import com.digitaldairy.labour.data.model.DailyWork
 import com.digitaldairy.labour.data.model.Person
 import com.digitaldairy.labour.data.model.PersonWithWorkDetail
 import com.digitaldairy.labour.data.model.WorkDetail
 import kotlinx.coroutines.flow.Flow
 import java.util.Date
+import java.util.UUID
 
 
 class RoomDataStore(private val appDatabase: AppDatabase) {
@@ -28,13 +30,13 @@ class RoomDataStore(private val appDatabase: AppDatabase) {
 //    }
     fun getAllPersonsAsWorkflow() = appDatabase.personDao().getAllAsLiveData()
     suspend fun insertPerson(person: Person) = appDatabase.personDao().insert(person)
-    suspend fun insertWorkDetail(workDetail: WorkDetail) {
+    suspend fun insertWorkDetail(workDetail: DailyWork) {
         appDatabase.workDetailDao().insert(workDetail)
     }
 
     fun getAllWorkDetailsFor(uId: String): Flow<PersonWithWorkDetail> =
         appDatabase.workDetailDao().getAllAsLiveData(uId)
 
-    fun getWorkInfo(uId: String, date: Date): PersonWithWorkDetail =
+    fun getWorkInfo(uId: UUID, date: Date): PersonWithWorkDetail =
         appDatabase.workDetailDao().getWorkDetail(uId )
 }

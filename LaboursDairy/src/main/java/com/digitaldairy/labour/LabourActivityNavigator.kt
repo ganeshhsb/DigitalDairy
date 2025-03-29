@@ -8,6 +8,7 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import com.digitaldairy.labour.listing.IPersonListingViewModel
 import com.digitaldairy.labour.listing.PersonDetailScreen
 import com.digitaldairy.labour.listing.PersonEntryScreen
 import com.digitaldairy.labour.listing.PersonListingScreen
@@ -18,7 +19,7 @@ import java.util.Date
 
 @Composable
 fun HostPage(
-    personListingViewModel: PersonListingViewModel = hiltViewModel<PersonListingViewModel>(),
+    personListingViewModel: IPersonListingViewModel = hiltViewModel<PersonListingViewModel>(),
     navController: NavHostController,
     canPop: MutableState<Boolean>,
     currentScreen: MutableState<Screen>

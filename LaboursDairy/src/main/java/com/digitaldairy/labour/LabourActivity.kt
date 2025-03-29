@@ -23,9 +23,9 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.rememberNavController
 import com.digitaldairy.compose.appcomponents.theme.DigitalDairyTheme
 import com.digitaldairy.labour.data.model.Person
+import com.digitaldairy.labour.data.model.SexType
+import com.digitaldairy.labour.listing.IPersonListingViewModel
 import com.digitaldairy.labour.listing.LaborItem
-import com.digitaldairy.labour.listing.PersonListingViewModel
-import dagger.hilt.android.AndroidEntryPoint
 
 sealed class Screen(val screenName: String) {
     object LaborListing : Screen("LaborListing")
@@ -37,9 +37,9 @@ sealed class Screen(val screenName: String) {
 }
 
 
-@AndroidEntryPoint
+//@AndroidEntryPoint
 class LabourActivity : ComponentActivity() {
-    val personListingViewModel: PersonListingViewModel by viewModels()
+    val personListingViewModel: IPersonListingViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,7 +50,7 @@ class LabourActivity : ComponentActivity() {
 }
 
 @Composable
-fun MainActivityContent(personListingViewModel: PersonListingViewModel) {
+fun MainActivityContent(personListingViewModel: IPersonListingViewModel) {
     // You can mock the dependencies here if needed for preview
     // For example:
     // val fakePeopleListingViewModel = FakePeopleListingViewModel()
@@ -100,9 +100,7 @@ fun FloatingActionButtonCompose(callback: () -> Unit) {
 @Composable
 fun MainActivityPreview() {
 //    MainActivityContent(peopleListingViewModel) // Replace with the actual composable function name used in MainActivity
-    LaborItem(Person(
-        "test", "testasfsdf", "testasfd", 23, "","test", "test"
-    ))
+    LaborItem(Person("Ganesh","HS",23,"8970103305",SexType.MALE))
 }
 
 

@@ -7,36 +7,41 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
 import androidx.room.Update
+import com.digitaldairy.labour.data.model.DailyWork
 import com.digitaldairy.labour.data.model.PersonWithWorkDetail
+import com.digitaldairy.labour.data.model.WorkAndCategoryCrossRef
+import com.digitaldairy.labour.data.model.WorkCategory
 import com.digitaldairy.labour.data.model.WorkDetail
 import kotlinx.coroutines.flow.Flow
 import java.util.Date
+import java.util.UUID
 
 @Dao
 interface WorkDetailDao {
-//    @Query("SELECT * FROM work_detail")
-//    suspend fun getAll(): List<WorkDetail>
-
     @Transaction
-    @Query("SELECT * FROM person  WHERE uid = :userId")
+    @Query("SELECT * FROM person  WHERE person_id = :userId")
     fun getAllAsLiveData(userId: String): Flow<PersonWithWorkDetail>
 
-//    @Query("SELECT * FROM work_detail WHERE uid IN (:userIds)")
-//    suspend fun loadAllByIds(userIds: StringAr): LiveData<List<WorkDetail>>
-
-//    @Query("SELECT * FROM person WHERE uid = :userId")
-//    fun loadAllById(userId: String): Flow<List<WorkDetail>>
+    @Transaction
+    @Query("SELECT * FROM person WHERE person_id = :userId")
+    fun getWorkDetailList(userId: UUID): List<PersonWithWorkDetail>
 
     @Transaction
-    @Query("SELECT * FROM person WHERE uid = :userId")
-    fun getWorkDetail(userId: String): PersonWithWorkDetail
+    @Query("SELECT * FROM person WHERE person_id = :userId")
+    fun getWorkDetail(userId: UUID): PersonWithWorkDetail
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(vararg workDetail: WorkDetail)
+    suspend fun insert(vararg workDetail: DailyWork):List<Long>
 
     @Update(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun update(vararg workDetail: WorkDetail)
+    suspend fun update(vararg workDetail: DailyWork)
 
     @Delete
-    suspend fun delete(workDetail: WorkDetail)
+    suspend fun delete(workDetail: DailyWork)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insert(workDetail: WorkCategory):Long
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insert(workAndCategory: WorkAndCategoryCrossRef):Long
 }

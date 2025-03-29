@@ -5,6 +5,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.digitaldairy.labour.repo.ILabourRepository
 import com.digitaldairy.labour.data.model.Person
+import com.digitaldairy.labour.data.model.SexType
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.CoroutineScope
@@ -74,8 +75,8 @@ class PersonListingViewModel @Inject constructor(
         fun getData(withData: Boolean): List<Person> {
             return if (withData) {
                 listOf(
-                    Person("uid", "Nagesh", "shetty", 40, "Phone number", "Male", "Address"),
-                    Person("uid", "Nagesh", "shetty", 40, "Phone number", "Male", "Address")
+                    Person("Nagesh", "shetty", 40, "Phone number", SexType.MALE, "Address"),
+                    Person("Nagesh", "shetty", 40, "Phone number", SexType.MALE, "Address")
 
                 ) // Initial state
             } else {

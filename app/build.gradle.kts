@@ -19,12 +19,30 @@ android {
         versionName = ProjectConfig.versionName
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunnerArguments["androidx.benchmark.suppressErrors"] = "EMULATOR,DEBUGGABLE"
         vectorDrawables {
             useSupportLibrary = true
         }
     }
 
     buildTypes {
+        getByName("debug") {
+            isDebuggable = false // Enable debugging for the debug build type
+        }
+
+        getByName("release") {
+            isDebuggable = false // Ensure release is not debuggable (recommended for production)
+        }
+        create("benchmark"){
+            initWith(getByName("release"))
+            signingConfig = signingConfigs.getByName("debug")
+        }
+        create("benchmark1") {
+            initWith(buildTypes.getByName("release"))
+            signingConfig = signingConfigs.getByName("debug")
+            matchingFallbacks += listOf("release")
+        }
+
         release {
             isMinifyEnabled = false
             proguardFiles(
@@ -58,6 +76,7 @@ android {
     hilt {
         enableAggregatingTask = false
     }
+
 }
 
 dependencies {

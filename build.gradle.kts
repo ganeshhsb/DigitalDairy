@@ -6,4 +6,5 @@ plugins {
     id("com.google.dagger.hilt.android") version "2.51" apply false
     id("com.android.library") apply false
     id("com.google.gms.google-services") version "4.4.2" apply false
+    id("com.android.test")  apply false
 }

@@ -16,7 +16,7 @@ class FirebaseDataStore(val firestore: FirebaseFirestore) {
 
     private fun addLabour(person: Person) {
         val peopleFB = hashMapOf(
-            "uid" to person.uid,
+            "uid" to person.personId,
             "first_name" to person.firstName,
             "last_name" to person.lastName,
             "sex" to true, //people.sex,
@@ -31,12 +31,12 @@ class FirebaseDataStore(val firestore: FirebaseFirestore) {
 
     private fun addWorkDetail(personId:String, workDetail: WorkDetail) {
         val workDetailFB = hashMapOf(
-            "uid" to workDetail.uid,
+            "uid" to workDetail.personId,
             "amount_paid" to workDetail.amountPaid,
-            "daily_wage" to workDetail.dailyWage,
+//            "daily_wage" to workDetail.,
             "date" to workDetail.date,
             "hours" to workDetail.hours,
-            "is_paid" to workDetail.isPaid,
+//            "is_paid" to workDetail.isPaid,
             "work_description" to workDetail.workDescription,
         )
 

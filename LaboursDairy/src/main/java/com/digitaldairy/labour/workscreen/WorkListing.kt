@@ -53,8 +53,10 @@ fun LabourWorkList(
             if (entries.value == null || entries.value?.size == 0) {
                 Text("There are no entries", color = MaterialTheme.colorScheme.onTertiary)
             } else {
+
                 LazyColumn {
                     items(entries.value!!) {
+                        val dailyWork = it.dailyWork
                         val paddingModifier = Modifier
                             .fillMaxWidth()
                             .padding(10.dp)
@@ -62,7 +64,7 @@ fun LabourWorkList(
                             elevation = 10.dp,
                             border = BorderStroke(1.dp, MaterialTheme.colorScheme.secondary),
                             modifier = paddingModifier.clickable {
-                                navController.navigate("${Screen.LabourWorkEntry.screenName}/$userId?date=${it.date.time}")
+                                navController.navigate("${Screen.LabourWorkEntry.screenName}/$userId?date=${dailyWork.date.time}")
                             }) {
                             Column(
                                 modifier = Modifier
@@ -70,14 +72,14 @@ fun LabourWorkList(
                                     .padding(10.dp)
                             ) {
                                 val formatter = SimpleDateFormat("dd/MM/yyyy")
-                                val date = formatter.format(it.date)
+                                val date = formatter.format(dailyWork.date)
 
                                 LabelValueText("Date", date)
-                                LabelValueText("WorkDescription", it.workDescription)
-                                LabelValueText("Is Paid", it.isPaid.toString())
-                                LabelValueText("DailyWage", it.dailyWage.toString())
-                                LabelValueText("AmountPaid", it.amountPaid.toString())
-                                LabelValueText("Hours", it.hours.toString())
+                                LabelValueText("WorkDescription", dailyWork.workDescription)
+//                                LabelValueText("Is Paid", it.isPaid.toString())
+                                LabelValueText("DailyWage", dailyWork.dailyWage.toString())
+                                LabelValueText("AmountPaid", dailyWork.amountPaid.toString())
+                                LabelValueText("Hours", dailyWork.hours.toString())
                             }
                         }
                     }
